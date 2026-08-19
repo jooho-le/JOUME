@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:api": "backend/.venv/bin/uvicorn app.main:app --reload --app-dir backend",
+    "test:api": "backend/.venv/bin/pytest -q backend/tests",
     "build": "vite build",
     "preview": "vite preview"
   },
