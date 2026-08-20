@@ -38,6 +38,7 @@ export const api = {
   deleteJourney: (id) => request(`/journeys/${id}`, { method: 'DELETE' }),
   mapJourneys: () => request('/journeys/map'),
   generateStory: (productId) => request(`/stories/generate/${productId}`, { method: 'POST' }),
+  aiJourneyStory: (data, signal) => request('/ai/journey-story', { ...json('POST', data), signal }),
   stories: (savedOnly = false) => request(`/stories?saved_only=${savedOnly}`),
   updateStory: (id, data) => request(`/stories/${id}`, json('PATCH', data)),
   generateNextStory: (productId) => request(`/next-stories/generate/${productId}`, { method: 'POST' }),

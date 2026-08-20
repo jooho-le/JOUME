@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useApp } from '../../state/AppState';
+import { useJourneyStory } from '../../hooks/useJourneyStory';
 import EmptyState from '../../components/EmptyState';
 import { formatDate } from '../../utils/format';
 import { getProduct } from '../../data/dummy';
@@ -20,13 +21,25 @@ function buildSummary(product, journeys) {
 export default function AIJourneyStory({ navigate }) {
   const { currentProduct, currentJourneys, currentStory, generateStory, saveStory, currentUserProductId, currentNextStories } = useApp();
 
+  // 저장된 Story가 없을 때만 AI를 부른다.
+  const needsStory = !currentStory && currentJourneys.length > 0 && !!currentProduct;
+  const { status, story } = useJourneyStory({
+    product: currentProduct,
+    journeys: currentJourneys,
+    enabled: needsStory,
+  });
+
   useEffect(() => {
-    if (!currentStory && currentJourneys.length > 0 && currentProduct) {
+    if (!needsStory) return;
+    if (story) {
+      generateStory(currentUserProductId, story.content, story.title);
+    } else if (status === 'error') {
+      // API가 죽어도 화면은 채운다.
       const { title, content } = buildSummary(currentProduct, currentJourneys);
       generateStory(currentUserProductId, content, title);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUserProductId, currentJourneys.length]);
+  }, [story, status, needsStory, currentUserProductId]);
 
   if (currentJourneys.length === 0) {
     return (
@@ -39,13 +52,24 @@ export default function AIJourneyStory({ navigate }) {
 
   const cities = [...new Set(currentJourneys.map((j) => j.city))];
   const types = [...new Set(currentJourneys.map((j) => j.experienceType))];
+  const isWriting = needsStory && (status === 'loading' || status === 'idle');
 
   return (
     <main className="jm-page">
       <div className="jm-ai-hero">
-        <span>AI SUMMARY</span>
-        <h2>{currentStory?.title}</h2>
-        <p>{currentStory?.content}</p>
+        <span>{isWriting ? 'AI IS WRITING' : 'AI SUMMARY'}</span>
+        {isWriting ? (
+          <>
+            <div className="jm-ai-skeleton title" />
+            <div className="jm-ai-skeleton line" />
+            <div className="jm-ai-skeleton line short" />
+          </>
+        ) : (
+          <>
+            <h2>{currentStory?.title}</h2>
+            <p>{currentStory?.content}</p>
+          </>
+        )}
         <div className="jm-ai-meta">
           <div>CITIES<b>{cities.join(', ')}</b></div>
           <div>EXPERIENCE<b>{types.join(' · ')}</b></div>
@@ -91,8 +115,8 @@ export default function AIJourneyStory({ navigate }) {
       )}
 
       <div className="jm-actions">
-        <button className="jm-btn primary" onClick={() => { saveStory(currentStory.id, { isSaved: true }); navigate('my-story-archive'); }}>Save Story</button>
-        <button className="jm-btn secondary" onClick={() => navigate('story-card')}>Share Story</button>
+        <button className="jm-btn primary" disabled={isWriting} onClick={() => { saveStory(currentStory.id, { isSaved: true }); navigate('my-story-archive'); }}>Save Story</button>
+        <button className="jm-btn secondary" disabled={isWriting} onClick={() => navigate('story-card')}>Share Story</button>
         <button className="jm-btn secondary" onClick={() => navigate('next-story')}>Discover Next Story</button>
       </div>
     </main>

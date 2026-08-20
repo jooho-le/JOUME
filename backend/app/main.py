@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from .api import router
+from .config import AI_ENABLED
 from .database import Base, SessionLocal, engine
 from .seed import seed
 
@@ -40,4 +41,4 @@ app.mount("/uploads", StaticFiles(directory=upload_dir), name="uploads")
 
 @app.get("/health")
 def health():
-    return {"status": "ok"}
+    return {"status": "ok", "ai": AI_ENABLED}

@@ -349,6 +349,11 @@
 .jm-ai-hero span{font:10px 'IBM Plex Mono';color:#f3a178;letter-spacing:.16em}
 .jm-ai-hero h2{font-family:Georgia,serif;font-weight:400;font-size:clamp(28px,3.4vw,42px);line-height:1.4;margin:20px 0;max-width:26ch}
 .jm-ai-hero p{color:#cfc8c1;line-height:1.9;font-size:14px;max-width:64ch}
+.jm-ai-skeleton{background:linear-gradient(90deg,#241f1b,#342d27,#241f1b);background-size:200% 100%;animation:jm-shimmer 1.4s linear infinite;border-radius:2px}
+.jm-ai-skeleton.title{height:36px;margin:20px 0;max-width:18ch}
+.jm-ai-skeleton.line{height:12px;margin:10px 0;max-width:64ch}
+.jm-ai-skeleton.line.short{max-width:40ch}
+@keyframes jm-shimmer{from{background-position:200% 0}to{background-position:0 0}}
 .jm-ai-meta{display:flex;gap:28px;flex-wrap:wrap;margin:26px 0}
 .jm-ai-meta div{font:10px 'IBM Plex Mono';color:#998f89}
 .jm-ai-meta b{display:block;color:#fff;font-size:16px;font-family:'Noto Sans KR';margin-top:6px}

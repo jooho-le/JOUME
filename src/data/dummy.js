@@ -194,18 +194,8 @@ export function buildSeedState() {
     { id: 6, userProductId: 3, city: 'Seoul', country: 'Korea', place: '한남동', date: daysAgo(20), experienceType: 'Everyday', note: '중고로 만났지만 이제부터는 나의 Story.', image: millaTote, isPublic: false },
   ];
 
-  const stories = [
-    {
-      id: 1,
-      userProductId: 1,
-      title: 'Four Cities, One Story',
-      content: '도쿄의 소음 속에서 시작해 서울의 일상으로 스며들고, 베를린에서 새로운 시작을 맞은 뒤 오사카의 반복되는 출장길까지 — STARK BACKPACK은 네 개의 도시를 지나며 당신의 하루를 가장 가까이에서 지켜봤습니다. Travel과 Everyday, New Beginning이 겹쳐지는 지점마다 이 가방은 같은 무게로 곁에 있었습니다.',
-      isSaved: true,
-      isPublic: false,
-      visibility: 'partial',
-      createdAt: daysAgo(30),
-    },
-  ];
+  // Story 본문은 AI가 생성한다 (POST /api/v1/ai/journey-story). 시드는 비워둔다.
+  const stories = [];
 
   const nextStories = [
     { id: 1, userProductId: 1, ...NEXT_STORY_POOL[0], isSaved: false },

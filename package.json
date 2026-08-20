@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "vite",
     "dev:api": "backend/.venv/bin/uvicorn app.main:app --reload --app-dir backend",
+    "dev:api:win": "backend\\.venv-win\\Scripts\\uvicorn app.main:app --reload --app-dir backend",
     "test:api": "backend/.venv/bin/pytest -q backend/tests",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:api:win": "backend\\.venv-win\\Scripts\\pytest -q backend/tests"
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",

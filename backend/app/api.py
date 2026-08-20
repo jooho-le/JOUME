@@ -10,10 +10,12 @@ from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy import desc, select
 from sqlalchemy.orm import Session, selectinload
 
+from .ai.story import compose_journey_story
 from .auth import current_user, issue_session, hash_password, verify_password
 from .database import get_db
 from .models import CareRecord, GeneratedStory, Journey, NextStory, Product, User, UserProduct
 from .schemas import (
+    AIJourneyIn, AIStoryIn, AIStoryOut,
     CareIn, CareOut, JourneyIn, JourneyOut, JourneyUpdate, LoginIn, NextStoryOut,
     ProductOut, RegisterProductIn, SettingsIn, SignupIn, StoryOut, StoryUpdate,
     TokenOut, UserOut, UserProductOut,
@@ -171,14 +173,32 @@ def generate_story(user_product_id: int, user: User = Depends(current_user), db:
     records = db.scalars(select(Journey).where(Journey.user_product_id == item.id).order_by(Journey.journey_date)).all()
     if not records:
         raise HTTPException(400, "스토리를 만들 여정 기록이 없습니다.")
-    cities = " · ".join(dict.fromkeys(record.city for record in records))
-    title = f"{item.product.name}과 함께한 {len(records)}개의 장면"
-    content = f"{records[0].journey_date:%Y년 %m월}, {records[0].city}에서 시작된 기록은 {cities}로 이어졌습니다. " + " ".join(record.note for record in records if record.note)
-    story = GeneratedStory(user_product_id=item.id, title=title, content=content.strip())
+    drafts = [
+        AIJourneyIn(
+            city=record.city,
+            country=record.country,
+            place=record.place,
+            date=record.journey_date,
+            experience_type=record.experience_type,
+            note=record.note or "",
+        )
+        for record in records
+    ]
+    draft, _ = compose_journey_story(item.product.name, item.product.collection, drafts)
+    story = GeneratedStory(user_product_id=item.id, title=draft.title, content=draft.content)
     db.add(story)
     db.commit()
     db.refresh(story)
     return story
+
+
+@router.post("/ai/journey-story", response_model=AIStoryOut)
+def ai_journey_story(payload: AIStoryIn):
+    journeys = sorted(payload.journeys, key=lambda journey: journey.date)
+    draft, source = compose_journey_story(
+        payload.product_name, payload.product_collection, journeys
+    )
+    return AIStoryOut(title=draft.title, content=draft.content, source=source)
 
 
 @router.get("/stories", response_model=list[StoryOut])

@@ -157,3 +157,24 @@ class CareOut(ORMModel):
     note: str
     requested_at: datetime
     completed_at: Optional[datetime]
+
+
+class AIJourneyIn(BaseModel):
+    city: str = Field(min_length=1, max_length=60)
+    country: str = ""
+    place: str = ""
+    date: date
+    experience_type: str = ""
+    note: str = Field(default="", max_length=500)
+
+
+class AIStoryIn(BaseModel):
+    product_name: str = Field(min_length=1, max_length=120)
+    product_collection: str = ""
+    journeys: list[AIJourneyIn] = Field(min_length=1, max_length=30)
+
+
+class AIStoryOut(BaseModel):
+    title: str
+    content: str
+    source: str  # "llm" | "fallback"
