@@ -304,6 +304,25 @@
 .jm-header.public{justify-content:space-between}
 .jm-header-login{padding:11px 20px !important;font-size:10px !important}
 
+/* Landing page */
+.jm-landing-hero{padding:96px max(28px,calc((100vw - 1320px)/2)) 0;text-align:center}
+.jm-landing-hero h1{font-weight:700;font-size:clamp(44px,7.5vw,88px);line-height:1.08;letter-spacing:-.03em;margin:0 0 26px;color:#171411}
+.jm-landing-hero p{font-size:17px;line-height:1.8;color:#666;margin:0 auto 36px;max-width:64ch}
+.jm-landing-hero-image{max-width:980px;margin:64px auto 0;border:1px solid var(--line);background:#eee9e2;overflow:hidden}
+.jm-landing-hero-image img{width:100%;height:640px;object-fit:contain;mix-blend-mode:multiply;display:block}
+
+.jm-landing-feature{max-width:1320px;margin:0 auto;padding:88px max(28px,calc((100vw - 1320px)/2));border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.jm-landing-feature.reverse .jm-landing-feature-image{order:-1}
+.jm-landing-feature-copy h2{font-size:clamp(28px,3.4vw,40px);font-weight:700;letter-spacing:-.025em;line-height:1.22;margin:18px 0 20px;word-break:keep-all}
+.jm-landing-feature-copy p{font-size:15px;line-height:1.9;color:#666;max-width:46ch}
+.jm-landing-feature-image{height:460px;background:#eee9e2;border:1px solid var(--line);display:grid;place-items:center;overflow:hidden}
+.jm-landing-feature-image img{width:82%;height:82%;object-fit:contain;mix-blend-mode:multiply}
+
+.jm-landing-cta{background:#171411;color:#fff;text-align:center;padding:120px 32px;margin-top:20px}
+.jm-landing-cta span{color:#f3a178}
+.jm-landing-cta h2{font-weight:700;font-size:clamp(36px,5.5vw,64px);line-height:1.1;letter-spacing:-.03em;margin:22px 0 18px}
+.jm-landing-cta p{color:#c9c1bb;font-size:15px;line-height:1.8;margin:0 auto 36px;max-width:48ch}
+
 @media(max-width:900px){
   .jm-header{padding:0 18px;gap:20px}
   .jm-header nav{position:fixed;bottom:0;left:0;right:0;background:#fff;height:64px;z-index:50;justify-content:space-around;gap:0;border-top:1px solid #111}
