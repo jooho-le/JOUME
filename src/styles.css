@@ -272,6 +272,34 @@
 .jm-filter-group span{font:9px 'IBM Plex Mono';color:#999}
 .jm-archive-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
 
+/* AI Journey Story */
+.jm-ai-hero{background:#171411;color:#fff;padding:60px 48px;margin-bottom:36px}
+.jm-ai-hero span{font:10px 'IBM Plex Mono';color:#f3a178;letter-spacing:.16em}
+.jm-ai-hero h2{font-family:Georgia,serif;font-weight:400;font-size:clamp(28px,3.4vw,42px);line-height:1.4;margin:20px 0;max-width:26ch}
+.jm-ai-hero p{color:#cfc8c1;line-height:1.9;font-size:14px;max-width:64ch}
+.jm-ai-meta{display:flex;gap:28px;flex-wrap:wrap;margin:26px 0}
+.jm-ai-meta div{font:10px 'IBM Plex Mono';color:#998f89}
+.jm-ai-meta b{display:block;color:#fff;font-size:16px;font-family:'Noto Sans KR';margin-top:6px}
+
+/* Inline "fits this story" product recommendation (embedded in AI Journey Story) */
+.jm-fit-products{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.jm-fit-card{display:flex;gap:18px;border:1px solid var(--line);background:#fff;padding:18px}
+.jm-fit-card img{width:96px;height:96px;object-fit:contain;background:#f0ede8;flex:none;mix-blend-mode:multiply}
+.jm-fit-card b{display:block;font-size:14px;margin:8px 0 6px}
+.jm-fit-card p{font-family:Georgia,serif;font-style:italic;font-size:12.5px;color:#666;line-height:1.6;margin:0 0 12px}
+
+/* Share Card */
+.jm-sharecard{display:grid;grid-template-columns:.85fr 1.15fr;gap:40px}
+.jm-share-visual{background:#171411;color:#fff;padding:36px;min-height:480px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden}
+.jm-share-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
+.jm-share-visual>*{position:relative;z-index:1}
+.jm-share-visual span{font:9px 'IBM Plex Mono';color:#f3a178}
+.jm-share-visual h3{font-size:22px;margin:12px 0}
+.jm-visibility{display:grid;gap:10px;margin-top:20px}
+.jm-visibility label{display:flex;align-items:center;gap:12px;border:1px solid var(--line);padding:14px 16px;font-size:12px;cursor:pointer}
+.jm-visibility input{accent-color:var(--orange)}
+.jm-visibility label.active{border-color:var(--orange);background:#fff6f0}
+
 /* Public marketing header (Landing / Login) */
 .jm-header.public{justify-content:space-between}
 .jm-header-login{padding:11px 20px !important;font-size:10px !important}
