@@ -166,6 +166,112 @@
 .jm-onboard-section{margin-bottom:34px}
 .jm-onboard-section h3{font:10px 'IBM Plex Mono';letter-spacing:.12em;color:#888;margin:0 0 14px}
 
+/* Story Home — greeting chip, loop banner, narrative dash */
+.jm-own-chip{border:1px solid var(--line);padding:10px 18px;display:flex;align-items:center;gap:10px;background:#fff;flex:none;margin-top:6px}
+.jm-own-chip span{font:9px 'IBM Plex Mono';color:#999;letter-spacing:.08em}
+.jm-own-chip b{font-size:16px;color:var(--cognac)}
+
+
+.jm-narrative-dash{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);margin:40px 0}
+.jm-narrative-dash .panel{padding:34px 32px;background:#fff}
+.jm-narrative-dash .panel + .panel{border-left:1px solid var(--line)}
+.jm-narrative-dash .panel.dark{
+  color:#fff;background-color:var(--cognac);
+  background-image:
+    linear-gradient(45deg,#00000016 25%,transparent 25%,transparent 75%,#00000016 75%),
+    linear-gradient(45deg,#00000016 25%,transparent 25%,transparent 75%,#00000016 75%);
+  background-size:34px 34px;background-position:0 0,17px 17px;
+}
+.jm-narrative-dash h3{font-size:22px;font-weight:600;letter-spacing:-.02em;line-height:1.3;margin:14px 0 12px}
+.jm-narrative-dash p{font-size:13px;line-height:1.8;color:#666;margin:0 0 20px;max-width:36ch}
+.jm-narrative-dash .panel.dark p{color:#f4ded0}
+.jm-narrative-dash .panel.dark .jm-btn.ghost{color:#fff;border-bottom-color:#fff}
+.jm-narrative-dash .jm-btn.ghost{border:0;border-bottom:1px solid var(--cognac);padding:0 0 2px;text-decoration:none}
+
+.jm-journey-card.add{display:grid;place-items:center;height:100%;min-height:216px;border-style:dashed;color:var(--cognac);font-size:26px;background:#faf9f5}
+.jm-journey-card.add:hover{background:#f4f1ec}
+
+/* Story Home dashboard — flat MCM heritage cognac brown, no pattern */
+.jm-dash{display:grid;grid-template-columns:repeat(3,1fr);margin-bottom:40px;color:#fff;background:var(--cognac)}
+.jm-dash>div{padding:26px 22px;border-right:1px solid #ffffff40}
+.jm-dash>div:last-child{border-right:0}
+.jm-dash span{display:block;font:9px 'IBM Plex Mono';color:#fbd8bf;letter-spacing:.12em;margin-bottom:14px}
+.jm-dash strong{font-size:44px;font-weight:300;letter-spacing:-.03em;color:#fff}
+.jm-section-head{display:flex;justify-content:space-between;align-items:baseline;margin:44px 0 18px}
+.jm-section-head h3{font-size:19px;margin:0}
+.jm-journey-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.jm-journey-card{border:1px solid var(--line);background:#fff;cursor:pointer;transition:.2s}
+.jm-journey-card:hover{border-color:#999}
+.jm-journey-card img{width:100%;height:150px;object-fit:contain;background:#f0ede8;mix-blend-mode:multiply}
+.jm-journey-card .body{padding:16px}
+.jm-journey-card b{display:block;font-size:13px;margin-bottom:4px}
+.jm-journey-card small{color:#999;font-size:10px;font-family:'IBM Plex Mono'}
+.jm-mini-map{height:220px;background:#e5e1da;position:relative;overflow:hidden;border:1px solid var(--line)}
+.jm-mini-map.wide{height:360px;margin-bottom:36px}
+.jm-mini-map-empty{display:grid;place-items:center}
+.jm-mini-map-empty span{font:10px 'IBM Plex Mono';color:#999}
+
+.jm-care-summary-card{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;border:1px solid var(--line);background:#fff;padding:24px 28px;margin-bottom:44px}
+.jm-care-summary-card b{font-size:15px;display:block;margin-top:2px}
+.jm-care-summary-card p{font-size:12.5px;color:#777;margin:6px 0 0}
+
+/* Add Journey form */
+.jm-journeyform{display:grid;grid-template-columns:1fr 1fr;gap:44px}
+.jm-upload{border:1px dashed #bbb;background:#fafaf8;height:100%;min-height:340px;display:grid;place-items:center;text-align:center;position:relative;overflow:hidden}
+.jm-upload img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.jm-upload span{font-size:13px;color:#999}
+.jm-upload input{position:absolute;inset:0;opacity:0;cursor:pointer}
+
+/* Journey Complete */
+.jm-complete{max-width:520px;margin:10px auto;text-align:center;padding:60px 30px;border:1px solid var(--line);background:#fff}
+.jm-complete .check{width:60px;height:60px;border-radius:50%;background:var(--orange);color:#fff;display:grid;place-items:center;margin:0 auto 24px;font-size:22px}
+.jm-complete img{width:100%;height:220px;object-fit:contain;background:#f0ede8;mix-blend-mode:multiply;margin-bottom:24px}
+.jm-complete h2{font-size:26px;margin:0 0 10px}
+.jm-complete p{color:#777;font-size:13px;margin:0 0 4px}
+.jm-complete .jm-actions{justify-content:center}
+
+/* Journey Map — immersive top-hero map + bottom city card grid */
+.jm-map{height:520px;background:#e5e1da;position:relative;overflow:hidden;border:1px solid var(--line)}
+.jm-map.hero{height:min(68vh,640px)}
+
+.jm-city-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:28px}
+.jm-city-card{border:1px solid var(--line);background:#fff;cursor:pointer;transition:.2s;outline:none}
+.jm-city-card:hover,.jm-city-card:focus-visible{border-color:var(--orange);box-shadow:0 0 0 1px var(--orange)}
+.jm-city-card .num{display:block;font:10px 'IBM Plex Mono';color:var(--cognac);padding:10px 14px 0}
+.jm-city-card img{width:100%;height:120px;object-fit:cover;display:block;margin-top:8px}
+.jm-city-card .info{padding:12px 14px 16px}
+.jm-city-card .city{font-size:13px;font-weight:600}
+.jm-city-card .sub{font:10px 'IBM Plex Mono';color:#999;margin-top:4px}
+
+/* Leaflet — real map re-skinned to match the brand */
+.jm-leaflet-pin span{display:block;width:14px;height:14px;background:var(--orange);border:3px solid #fff;border-radius:50%;box-shadow:0 1px 5px rgba(0,0,0,.4);animation:pulse 2s infinite;transition:.2s}
+.jm-leaflet-pin.active span{width:20px;height:20px;background:#171411;box-shadow:0 0 0 7px rgba(237,106,44,.35)}
+.leaflet-tooltip{font:10px 'IBM Plex Mono';letter-spacing:.04em;background:#171411;color:#fff;border:0;border-radius:0;padding:5px 9px;box-shadow:none}
+.leaflet-tooltip:before{display:none}
+.leaflet-control-zoom{border:1px solid var(--line) !important;box-shadow:none !important}
+.leaflet-control-zoom a{border-radius:0 !important;color:#171411 !important}
+
+/* Journey Timeline / Archive / Care History */
+.jm-timeline{border-top:2px solid #111}
+.jm-timeline-item{display:grid;grid-template-columns:120px 90px 1fr;gap:20px;padding:22px 4px;border-bottom:1px solid var(--line);cursor:pointer;transition:.2s}
+.jm-timeline-item:hover{background:#f6f3ef;padding-left:14px}
+.jm-timeline-item time{font:10px 'IBM Plex Mono';color:#999}
+.jm-timeline-item img{width:90px;height:64px;object-fit:cover;background:#eee}
+.jm-timeline-item h4{margin:0 0 6px;font-size:15px}
+.jm-timeline-item p{margin:0;font-size:12px;color:#777}
+.jm-tag{display:inline-block;font:9px 'IBM Plex Mono';color:var(--orange);border:1px solid var(--orange);padding:3px 8px;margin-top:8px}
+
+/* Journey Detail */
+.jm-jdetail{display:grid;grid-template-columns:1fr 1fr;gap:44px}
+.jm-jdetail img{width:100%;height:440px;object-fit:cover;background:#eee}
+.jm-jdetail-note{font-family:Georgia,serif;font-style:italic;font-size:17px;line-height:1.8;color:#333;margin:22px 0;border-left:2px solid var(--orange);padding-left:18px}
+
+/* Archive filters */
+.jm-filters{display:flex;gap:24px;flex-wrap:wrap;border-top:1px solid #111;border-bottom:1px solid var(--line);padding:18px 0;margin-bottom:24px}
+.jm-filter-group{display:flex;align-items:center;gap:10px}
+.jm-filter-group span{font:9px 'IBM Plex Mono';color:#999}
+.jm-archive-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+
 /* Public marketing header (Landing / Login) */
 .jm-header.public{justify-content:space-between}
 .jm-header-login{padding:11px 20px !important;font-size:10px !important}
