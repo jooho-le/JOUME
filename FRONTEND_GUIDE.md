@@ -1,19 +1,38 @@
-# MCM Archive 프론트 페이지 명세
+# Joume (MCM Second Journey) 프론트 페이지 명세
+
+> 이 문서는 실제 구현 상태를 따라갑니다. 화면 옆의 `✅ 구현됨` / `⬜ 스켈레톤`으로 지금 실제 코드가 있는지, 아직 `createIAPage(routeId)` 자리표시자인지 구분합니다.
 
 ## 서비스 핵심 흐름
 
 ```text
-제품 발견
-→ Product Passport 확인
-→ 로그인 및 제품 등록
+Landing (비로그인)
+→ Product Discovery / External Entry
+→ Digital Product Passport 확인
+→ 로그인 (계정 연결)
+→ 제품 등록
 → Story 설정
+→ Story Home (로그인 상태 기본 화면)
 → Journey 기록
 → AI Story 생성
-→ Next Story 선택
+→ Next Story(여행지 + 제품) 선택
 → MCM 제품·케어·매장 연결
 ```
 
+### 진입 라우팅
+
+- 비로그인 상태로 아무 해시 없이 접속하면 `#/landing`으로 이동합니다.
+- 로그인 완료(`login()` 호출) 후에는 다음 접속부터 곧바로 `#/story-home`으로 이동합니다.
+- 로그인 여부는 `localStorage`에 앱 상태와 함께 저장되며(`isLoggedIn`), 이 필드가 없던 이전 버전 데이터는 보유 제품이 있으면 로그인된 것으로 간주해 자동 이관합니다.
+- 구현: `src/App.jsx`(`defaultRoute`), `src/state/AppState.jsx`(`isLoggedIn`, `login()`, `readIsLoggedIn()`)
+
 ## 공통 영역
+
+### Header
+
+두 가지 모드로 나뉩니다 (`src/components/AppShell.jsx`).
+
+- **Public 모드** (`landing`, `login`): 로고 + `Login` 버튼만 노출. `data/ia.js`의 `PUBLIC_PAGES`로 판별합니다.
+- **App 모드** (로그인 후 나머지 전체): 로고 + 5개 Global Navigation. 900px 이하에서는 하단 고정 탭바로 전환되고, 각 탭에 아이콘(홈/핀/화살표/하트/프로필)이 함께 표시됩니다.
 
 ### Global Navigation
 
@@ -21,353 +40,249 @@
 |---|---|---|
 | STORY | `#/story-home` | 현재 제품의 Story 홈 |
 | MAP | `#/journey-map` | 기록한 Journey 지도 |
-| NEXT | `#/next-story` | AI가 제안한 다음 Story |
+| NEXT | `#/next-story` | AI가 제안한 다음 여행지 + 제품 |
 | CARE | `#/care-home` | 현재 제품의 관리 상태 |
-| MY | `#/my-products` | 보유 제품과 계정 관리 |
+| MY | `#/my-products` | 보유 제품과 계정 관리 (허브) |
 
-### Global Product Selector
+### Product Bar & Switcher
 
-현재 보고 있는 MCM 제품을 변경하는 공통 선택기입니다.
+페이지 상단에 현재 선택된 제품을 보여주는 얇은 인라인 바입니다 (`src/components/ProductBar.jsx`).
 
-- 현재 선택 제품 표시
-- 보유 제품 변경
-- 현재 제품의 Product Passport 이동
-- 제품을 변경하면 Story, Map, Care 내용도 해당 제품 기준으로 변경
-
-구현 파일: `src/components/AppShell.jsx`
+- 이미지 + 제품명만 한 줄로 표시 (박스形 배경 없음)
+- 보유 제품이 2개 이상이면 `제품 변경 →`이 노출되고, 클릭하면 **같은 화면 안에서** 세로 목록형 드롭다운 팝오버가 뜹니다 (페이지 이동 없음)
+- 제품을 고르면 팝오버가 닫히고 현재 화면이 그 제품 기준 데이터로 즉시 갱신됩니다
+- Product Care Home에서는 팝오버 대신 `src/components/ProductCarousel.jsx`(사진 카드 캐러셀)를 페이지 안에 직접 노출합니다 — "어떤 제품을 관리할지" 먼저 고르는 화면이라 더 큰 선택 UI가 필요하기 때문입니다.
 
 ---
 
-## 01. Entry / Product Discovery
+## 00. Landing ✅ 구현됨
+
+- 파일: `src/pages/landing/Landing.jsx`
+- URL: `#/landing`
+- 목적: 로그인 전 방문자에게 서비스 철학을 전달하고 가입을 유도합니다.
+- 주요 내용: 히어로(헤드라인 + 제품 이미지), 3개 기능 섹션(좌우 번갈아 배치: 지도·타임라인 기록 / AI 내러티브 / 다음 순간 추천), 하단 CTA 밴드
+- 주요 이동: `JOIN ME` / `내 제품 등록하고 여정 시작하기` → Login
+
+---
+
+## 01. Entry / Product Discovery ✅ 구현됨
+
+이 섹션은 아직 제품을 등록하지 않은 방문자가 새 제품(`DISCOVERY_PRODUCT_ID`, 현재는 VISETOS SLING BAG)을 만나는 흐름입니다. 이미 보유 중인 제품(Story/Journey/Care가 쌓인 제품)과는 별개입니다.
 
 ### 01-1. Product Discovery
 
-- 파일: `src/pages/entry/ProductDiscovery.jsx`
-- URL: `#/product-discovery`
-- 목적: 제품 구매 전 고객에게 제품의 기능보다 Story와 Heritage를 먼저 전달합니다.
-- 주요 내용: 제품 이미지, 제품명, 컬렉션, 기본 정보, Product Story 미리보기, MCM Heritage, Journey 미리보기, Care 미리보기
-- 주요 이동: `Explore the Story` → Product Passport, `View Product` → Product Detail
+- 파일: `src/pages/entry/ProductDiscovery.jsx` · URL: `#/product-discovery`
+- 주요 내용: 제품 히어로 이미지, Product Story 인용구, MCM Heritage / Journey Preview / Product Care 3단 요약
+- 주요 이동: `Explore the Story` → Digital Passport, `View Product` → Product Detail
 
 ### 01-2. Product Detail
 
-- 파일: `src/pages/entry/ProductDetail.jsx`
-- URL: `#/product-detail`
-- 목적: 제품 정보 확인과 실제 구매 전환을 담당합니다.
-- 주요 내용: 제품 이미지, 제품명, 가격, 컬러, 옵션, 설명, Product Story, Journey Preview
-- 주요 이동: `Purchase` → 로그인 또는 구매 단계, `Product Passport` → Product Passport
+- 파일: `src/pages/entry/ProductDetail.jsx` · URL: `#/product-detail`
+- 주요 내용: 제품 이미지, 컬러 스와치 선택, 가격, 소재/제조 정보 표
+- 주요 이동: `Purchase` → Login, `Product Passport` → Digital Passport
 
 ### 01-3. External Product Entry
 
-- 파일: `src/pages/entry/ExternalProductEntry.jsx`
-- URL: `#/external-entry`
-- 목적: 공식몰 외부에서 제품을 획득한 사용자도 공식 MCM 경험으로 연결합니다.
-- 주요 내용: NFC·QR 스캔 안내, 공식 DPP 연결, 정품 확인
-- 주의: 구매 경로는 화면에서 계속 강조하지 않습니다.
-- 주요 이동: `Scan Product` → Product Passport
+- 파일: `src/pages/entry/ExternalProductEntry.jsx` · URL: `#/external-entry`
+- 주요 내용: NFC/QR 스캔 애니메이션(펄스 링), 공식 DPP 연결 안내
+- 주의: 구매 경로를 강조하지 않습니다.
+- 주요 이동: `Scan Product` → Digital Passport
 
 ---
 
-## 02. Product Passport
+## 02. Product Passport ✅ 구현됨
 
 ### 02-1. Digital Product Passport
 
-- 파일: `src/pages/passport/DigitalProductPassport.jsx`
-- URL: `#/digital-passport`
-- 목적: 제품의 공식 정보와 브랜드가 만든 첫 번째 Story를 제공합니다.
-- 주요 내용: 제품 Hero, Product Identity, 정품 정보, 소재, 제조 정보, Heritage, Craftsmanship, Care Preview, Journey Preview
-- 미등록 사용자 CTA: `Register Your Product`
-- 등록 사용자 CTA: `View My Story`
+- 파일: `src/pages/passport/DigitalProductPassport.jsx` · URL: `#/digital-passport`
+- 주요 내용: 정품 뱃지, Product Identity 표, MCM Heritage/Craftsmanship 다크 패널
+- 미등록 사용자 CTA: `Register Your Product` → Login
+- 등록 사용자 CTA: `View My Story` → Story Home
 
 ---
 
-## 03. Account / Product Connection
+## 03. Account / Product Connection ✅ 구현됨
 
 ### 03-1. Login / Sign Up
 
-- 파일: `src/pages/account/Login.jsx`
-- URL: `#/login`
-- 목적: 제품 등록 과정에서 MCM 계정과 사용자를 연결합니다.
-- 주요 내용: 로그인, 회원가입, 소셜 로그인
-- 완료 후: 사용자가 진입했던 제품 등록 Flow로 복귀
+- 파일: `src/pages/account/Login.jsx` · URL: `#/login`
+- 주요 내용: 이메일/비밀번호 폼만 (로그인·회원가입 탭 전환, 여행 관련 필드 없음)
+- 제출 시 `useApp().login()`으로 로그인 상태를 저장하고 Product Registration으로 이동합니다.
 
 ### 03-2. Product Registration
 
-- 파일: `src/pages/account/ProductRegistration.jsx`
-- URL: `#/product-registration`
-- 목적: 확인된 제품을 현재 사용자의 보유 제품으로 등록합니다.
-- 주요 내용: 제품 이미지, 제품명, 제품 확인 상태, 계정 연결 상태, 현재 소유 등록
-- 주요 이동: `Register Product` → Start Your Story
+- 파일: `src/pages/account/ProductRegistration.jsx` · URL: `#/product-registration`
+- 주요 내용: 정품 확인 카드, 계정 연결 체크리스트
+- 주요 이동: `Register Product` → Start Your Story (`registerProduct()`로 보유 제품 목록에 추가)
 
 ### 03-3. Start Your Story
 
-- 파일: `src/pages/account/StartStory.jsx`
-- URL: `#/start-story`
-- 목적: 이후 개인화에 사용할 최소한의 초기 Context를 받습니다.
-- 주요 내용: 관심 Experience, 관심 도시, 제품 사용 목적
-- Experience: Travel, Work, Everyday, Celebration, New Beginning
+- 파일: `src/pages/account/StartStory.jsx` · URL: `#/start-story`
+- 주요 내용: Experience Type 5개 칩(Travel/Work/Everyday/Celebration/New Beginning), 관심 도시 선택
 - 주요 이동: `Start My Story` → Story Home
 
 ---
 
-## 04. Story Home
+## 04. Story Home ✅ 구현됨
 
 ### 04-1. My Story Home
 
-- 파일: `src/pages/story/StoryHome.jsx`
-- URL: `#/story-home`
-- 목적: 선택된 제품의 전체 Story 상태를 한 화면에서 요약합니다.
-- 주요 내용:
-  - 현재 제품과 함께한 기간
-  - 누적 Journey 수
-  - AI Story 한 줄 Summary
-  - 최근 Journey 3개
-  - Journey Map 미리보기
-  - Next Story 2개
-  - Product Care 상태
-- 빈 상태: Journey가 없으면 기존 기록 대신 `첫 Journey 추가` 안내 표시
-- 핵심 CTA: `Add New Journey`
-- 보조 이동: Journey Timeline, Next Story
+- 파일: `src/pages/story/StoryHome.jsx` · URL: `#/story-home`
+- 주요 내용 (위→아래 순서):
+  1. Product Bar + 인사말(`안녕하세요, {이름}님`) + 제품 Story 헤드라인 + 보유 제품 수 칩
+  2. 통계 밴드 (DAYS TOGETHER / JOURNEYS / CITIES) — 코냑 단색, 첫 칸만 강조 색
+  3. **Story Summary / Next Chapter** 2단 패널 — 왼쪽은 지금까지 기록 요약 + AI Story 링크, 오른쪽은 코냑 다이아몬드 텍스처의 다음 추천 티저(Next Story 1순위)
+  4. Journey Map 섹션 — 실제 Leaflet 미니맵(`src/components/MiniMap.jsx`, 전체 폭 와이드) + 하단 Product Care 요약 카드(별도 가로 카드, 지도 옆이 아님)
+  5. Recent Journey 그리드(4개) + 인라인 "＋" 추가 카드
+- 빈 상태(Journey 0개): 통계는 0으로 시작, 카드 대신 `EmptyState`(아웃라인 버튼 1개만, 중복 CTA 없음)
 
 ---
 
-## 05. My Journey
+## 05. My Journey ✅ 구현됨
 
 ### 05-1. Add Journey
 
-- 파일: `src/pages/journey/AddJourney.jsx`
-- URL: `#/add-journey`
-- 목적: 제품과 함께한 하나의 경험을 기록합니다.
-- 입력: 사진, 도시·장소, 날짜, Experience Type, 짧은 메모
-- Experience Type: Travel, Work, Everyday, Celebration, New Beginning
+- 파일: `src/pages/journey/AddJourney.jsx` · URL: `#/add-journey`
+- 입력: 사진 업로드, 도시/국가/장소, 날짜, Experience Type 칩, 짧은 메모
 - 주요 이동: `Add to My Story` → Journey Complete
 
 ### 05-2. Journey Complete
 
-- 파일: `src/pages/journey/JourneyComplete.jsx`
-- URL: `#/journey-complete`
-- 목적: Journey 저장 완료를 확인하고 다음 행동을 선택하게 합니다.
-- 주요 내용: 등록 이미지, 장소, 날짜, Story 한 줄, 저장 완료 문구
-- 주요 이동: Story Home 또는 Journey 추가
+- 파일: `src/pages/journey/JourneyComplete.jsx` · URL: `#/journey-complete`
+- 방금 추가한 Journey(`selectedJourney`) 요약과 확인 문구
+- 주요 이동: Story Home 또는 Add Journey 반복
 
 ### 05-3. Journey Map
 
-- 파일: `src/pages/journey/JourneyMap.jsx`
-- URL: `#/journey-map`
-- 목적: 선택 제품과 함께한 장소를 공간 기준으로 보여줍니다.
-- 주요 내용: 세계·지역 지도, 방문 도시 Pin, Journey Route, 최근 Journey, Product Care Pin
-- 동작: 국가 선택 시 해당 지역으로 확대하고 도시 Story 표시
+- 파일: `src/pages/journey/JourneyMap.jsx` · URL: `#/journey-map`
+- **상단 히어로**: 실제 Leaflet + OpenStreetMap 지도(최대 68vh, 화면 폭 전체). 지역 필터 칩(전체/아시아/유럽/북미/기타), 상단 우측 `+ 여정 추가하기`
+- **하단 카드 그리드**: 방문 도시를 01, 02… 번호 카드로 나열(사진+날짜+기록 수)
+- **카드-지도 연동**: 카드에 hover/focus하면 지도가 해당 도시로 `flyTo` 하고 마커가 확대·강조됩니다. 클릭하면 Journey Detail로 이동합니다.
+- 모바일: 지도 46vh로 축소, 카드 그리드는 가로 스크롤
+- 좌표 매핑: `data/dummy.js`의 `CITY_COORDS`/`CITY_REGION`. 목록에 없는 도시명을 자유 입력하면 지도에는 안 찍히고 카드 목록에만 남습니다.
 
 ### 05-4. Journey Timeline
 
-- 파일: `src/pages/journey/JourneyTimeline.jsx`
-- URL: `#/journey-timeline`
-- 목적: 모든 경험과 제품 관리 기록을 시간순으로 보여줍니다.
-- 주요 내용: Journey 이미지, 날짜, 장소, Experience Type, Product Care, 공식 수선 기록
+- 파일: `src/pages/journey/JourneyTimeline.jsx` · URL: `#/journey-timeline`
+- Journey + Care 기록을 날짜 역순으로 합쳐서 표시
 - 주요 이동: Journey Detail, AI Journey Story
 
 ### 05-5. Journey Detail
 
-- 파일: `src/pages/journey/JourneyDetail.jsx`
-- URL: `#/journey-detail`
-- 목적: Journey 하나의 전체 정보를 확인합니다.
-- 주요 내용: 대표 이미지, 장소, 날짜, Experience Type, 사용자 메모, 사용 제품, 연결된 AI Story
+- 파일: `src/pages/journey/JourneyDetail.jsx` · URL: `#/journey-detail`
+- `selectedJourney` 하나의 전체 정보(이미지, 장소, 날짜, Experience, 메모, 사용 제품)
 
 ### 05-6. Journey Archive
 
-- 파일: `src/pages/journey/JourneyArchive.jsx`
-- URL: `#/journey-archive`
-- 목적: 누적된 Journey를 검색하고 분류합니다.
-- 주요 내용: 전체 Journey 목록
-- 필터: 연도, 도시, Experience Type
+- 파일: `src/pages/journey/JourneyArchive.jsx` · URL: `#/journey-archive`
+- 연도/도시/Experience Type 필터가 있는 전체 Journey 그리드
 
 ---
 
-## 06. AI Story
+## 06. AI Story ✅ 구현됨
 
 ### 06-1. AI Journey Story
 
-- 파일: `src/pages/ai-story/AIJourneyStory.jsx`
-- URL: `#/ai-journey-story`
-- 목적: 흩어진 Journey를 하나의 제품 Story로 정리합니다.
-- AI 입력: 제품 정보, 사진, 장소, 날짜, 메모, Experience Type
-- 주요 내용: AI 한 줄 Summary, 전체 Story, 주요 도시, 주요 Experience, Timeline, Product Story와 Customer Story 연결
-- 주요 이동: Story 저장, Story 공유, Next Story 탐색
+- 파일: `src/pages/ai-story/AIJourneyStory.jsx` · URL: `#/ai-journey-story`
+- Journey가 없으면 EmptyState, 있으면 진입 시 `generateStory()`로 요약 텍스트를 자동 생성
+- 주요 내용: 다크 히어로(AI Summary + 도시/Experience/기록 수), Journey Timeline, **이 Story와 어울리는 제품 추천**(카드 인라인)
+- 참고: 제품 추천은 별도 페이지로 분리하지 않습니다 — Story를 보다가 맥락을 잃지 않도록 이 화면 안에서 바로 보여줍니다. (반면 07번 Next Story의 제품 추천은 전용 상세 페이지가 따로 있습니다 — 아래 참고)
+- 주요 이동: Save Story, Share Story(→ Story Card), Discover Next Story
 
 ### 06-2. Journey Story Card
 
-- 파일: `src/pages/ai-story/JourneyStoryCard.jsx`
-- URL: `#/story-card`
-- 목적: 생성된 AI Story를 공유 가능한 카드로 만듭니다.
-- 주요 내용: 대표 이미지, 제품 이미지, Story 문장, 도시, Route, `#MyMCMJourney`
-- 설정: 공개, 일부 공개, 비공개
+- 파일: `src/pages/ai-story/JourneyStoryCard.jsx` · URL: `#/story-card`
+- 공유 카드 미리보기 + 공개 범위 라디오(공개/일부 공개/비공개)
 
 ---
 
-## 07. AI Next Story
+## 07. AI Next Story ✅ 구현됨
+
+Next Story는 **여행지 추천과 제품 추천을 분리**해서 보여줍니다 — 하나의 화면에 제품 카드만 두 개 있던 이전 구성을 대체했습니다.
 
 ### 07-1. Next Story
 
-- 파일: `src/pages/next/NextStory.jsx`
-- URL: `#/next-story`
-- 목적: 기존 Journey를 기반으로 다음에 만들 Story를 두 개만 제안합니다.
-- 사용 Context: 기존 Journey, 관심사, 제품 사용 방식
-- 각 추천 내용: Story Theme, 장소, 이미지, 추천 이유 한 줄
+- 파일: `src/pages/next/NextStory.jsx` · URL: `#/next-story`
+- 주요 내용: 짧은 Customer Context 한 줄 + 카드 2장(왼쪽 아래로 오프셋 없는 기준, 오른쪽 카드가 64px 아래로 어긋난 비대칭 배치)
+  - **다음 여행지 카드**: 실제 도시 사진(Unsplash) 풀블리드 배경 + 그라데이션, 테마 태그, 도시명, 추천 이유
+  - **어울리는 제품 카드**: 제품 사진 + 제품 추천 이유
+- 주요 이동: 여행지 카드 → Next Story Detail / 제품 카드 → Next Product Detail
 
-### 07-2. Next Story Detail
+### 07-2. Next Story Detail (여행지)
 
-- 파일: `src/pages/next/NextStoryDetail.jsx`
-- URL: `#/next-story-detail`
-- 목적: 추천이 나온 이유와 실제 만들 수 있는 경험을 설명합니다.
-- 주요 내용: 추천 장소, 기존 Story와 연결점, 만들 수 있는 Story, 문화, 디자인·건축, 관련 활동
-- 주요 이동: `Make This My Next Story` → Saved Next Story
+- 파일: `src/pages/next/NextStoryDetail.jsx` · URL: `#/next-story-detail`
+- 도시 사진 풀블리드 히어로 + 추천 이유 / 기존 Story와 연결점 / 만들 수 있는 Story 3단 + 관련 브랜드 콘텐츠 카드(있으면 매칭)
+- 주요 이동: `Make This My Next Story`(저장 후 My MCM으로 이동), `다른 추천 보기`
 
-### 07-3. Saved Next Story
+### 07-3. Next Product Detail (제품) — 신규
 
-- 파일: `src/pages/next/SavedNextStory.jsx`
-- URL: `#/saved-next-story`
-- 목적: 사용자가 선택한 다음 Story를 실행 전까지 보관합니다.
-- 주요 내용: 예정 장소, Experience, 관련 MCM Experience
-- 주요 이동: Journey 추가, MCM Experience 추천
+- 파일: `src/pages/next/NextProductDetail.jsx` · URL: `#/next-product-detail`
+- 목적: Next Story의 제품 카드를 클릭했을 때 바로 Store Detail로 넘기지 않고, 왜 이 제품인지 먼저 설명합니다.
+- 주요 내용: 제품 사진, 가격, 현재 보유 제품과의 연결점, 추천 이유, Product Story
+- 주요 이동: `Store에서 보기` → Store Detail
 
----
+### 07-4. Saved Next Story ⬜ 스켈레톤
 
-## 08. MCM Experience
-
-### 08-1. MCM Experience Recommendation
-
-- 파일: `src/pages/experience/ExperienceRecommendation.jsx`
-- URL: `#/experience-recommendation`
-- 목적: 선택한 Next Story를 실제 MCM 행동으로 연결합니다.
-- 추천 순서: Story → Experience → Product
-- 주요 내용: Product Care, 매장, Brand Content, 관련 제품 2개, 추천 이유
-
-### 08-2. Product Recommendation Detail
-
-- 파일: `src/pages/experience/ProductRecommendationDetail.jsx`
-- URL: `#/recommendation-detail`
-- 목적: 추천 제품이 현재 제품과 Next Story에 왜 필요한지 설명합니다.
-- 주요 내용: 제품 이미지, 제품명, 현재 보유 제품과 연결점, Story 추천 이유, Product Story
-- 주요 이동: 공식 제품 상세, 공식 매장
-
-### 08-3. Brand Content Detail
-
-- 파일: `src/pages/experience/BrandContentDetail.jsx`
-- URL: `#/brand-content`
-- 목적: Journey와 연결되는 MCM 문화·디자인 콘텐츠를 제공합니다.
-- 주요 내용: MCM Travel Story, 문화·디자인 콘텐츠, 전시·프로그램, 추천 이유
-
-### 08-4. Store Detail
-
-- 파일: `src/pages/experience/StoreDetail.jsx`
-- URL: `#/store-detail`
-- 목적: 추천된 경험을 오프라인 매장 행동으로 연결합니다.
-- 주요 내용: 가까운 매장, 주소, 운영 정보, 제공 서비스, Product Care 가능 여부, 관련 제품
-- 주요 이동: 방문 예약 또는 Care 요청
+- 파일: `src/pages/next/SavedNextStory.jsx` · URL: `#/saved-next-story`
+- 현재는 `saveNextStory()`로 저장한 뒤 My MCM 허브(10-1)의 "저장된 Next Story" 목록으로 안내하고 있어 이 화면은 아직 별도로 쓰이지 않습니다.
 
 ---
 
-## 09. Product Care
+## 08. MCM Experience ⬜ 스켈레톤 (미구현)
+
+08-1 Experience Recommendation, 08-2 Brand Content Detail, 08-3 Store Detail 모두 아직 `createIAPage` 자리표시자입니다. `next-story-detail`, `next-product-detail`, `ai-journey-story`의 제품 추천 카드가 이미 `store-detail`/`brand-content`/`experience-recommendation`으로 연결되도록 라우팅은 걸어뒀습니다.
+
+---
+
+## 09. Product Care ✅ 구현됨
 
 ### 09-1. Product Care Home
 
-- 파일: `src/pages/care/ProductCareHome.jsx`
-- URL: `#/care-home`
-- 목적: 선택 제품의 현재 상태와 필요한 관리 행동을 요약합니다.
-- 주요 내용: 제품 상태, 관리 가이드, 권장사항, 최근 Care 기록
-- 주요 이동: Care Guide, Request Care
+- 파일: `src/pages/care/ProductCareHome.jsx` · URL: `#/care-home`
+- 상단: 타이틀 옆 `Request Care` 버튼(우측 정렬), 그 아래 `ProductCarousel`로 보유 제품 중 관리할 제품을 먼저 선택
+- 하단: 3분할 카드(제품 상태 / 관리 가이드 / 최근 Care 기록), 가운데 정렬, 제품 전환 시 실시간 반응
 
 ### 09-2. Care Guide
 
-- 파일: `src/pages/care/CareGuide.jsx`
-- URL: `#/care-guide`
-- 목적: 제품 소재에 맞는 관리 방법을 안내합니다.
-- 주요 내용: 제품별 관리, 소재별 관리, 보관 방법
+- 파일: `src/pages/care/CareGuide.jsx` · URL: `#/care-guide`
+- 소재(캔버스/가죽) 기준 관리 팁 3가지
 
 ### 09-3. Repair / Care History
 
-- 파일: `src/pages/care/CareHistory.jsx`
-- URL: `#/care-history`
-- 목적: 공식 수선과 관리 이력을 제품 Story로 보존합니다.
-- 주요 내용: 수선 날짜, 수선 내용, 상태, Journey Timeline 연결
+- 파일: `src/pages/care/CareHistory.jsx` · URL: `#/care-history`
+- 현재 제품의 Care 기록 타임라인 (없으면 EmptyState)
 
 ### 09-4. Request Care
 
-- 파일: `src/pages/care/RequestCare.jsx`
-- URL: `#/care-request`
-- 목적: 현재 제품의 공식 Care를 요청합니다.
-- 입력: 제품, 요청 유형, 상태 사진, 가까운 매장
-- 주요 이동: `Request` → Care Complete
+- 파일: `src/pages/care/RequestCare.jsx` · URL: `#/care-request`
+- 입력: 케어 유형 칩, 매장 선택, 사진, 메모 → 제출 시 실제로 기록 생성
 
 ### 09-5. Care Complete
 
-- 파일: `src/pages/care/CareComplete.jsx`
-- URL: `#/care-complete`
-- 목적: 완료된 Care를 확인하고 Journey Timeline에 추가합니다.
-- 주요 내용: 완료 날짜, 처리 내용, Care Story
+- 파일: `src/pages/care/CareComplete.jsx` · URL: `#/care-complete`
+- 진입 시 자동으로 완료 처리(`completeCare()`) 후 확인 화면 표시
 
 ---
 
 ## 10. My MCM
 
-### 10-1. My Products
+### 10-1. My Products (허브) ✅ 구현됨
 
-- 파일: `src/pages/my/MyProducts.jsx`
-- URL: `#/my-products`
-- 목적: 사용자가 보유한 모든 MCM 제품을 관리합니다.
-- 제품별 정보: 이미지, Journey 수, AI Story Summary, Care 상태
-- 주요 이동: Product Passport, 제품별 Story
+- 파일: `src/pages/my/MyProducts.jsx` · URL: `#/my-products`
+- 원래 계획이던 5개 분리 페이지 대신 **2단 레이아웃 허브 하나**로 구현했습니다.
+  - 좌측: 보유 제품 목록(도시·기록 수 요약, 클릭 시 해당 제품으로 전환 후 Story Home), 내 여정(Journey Map 바로가기), 저장된 Next Story 목록
+  - 우측: 계정 설정 토글 4개(여정 공개, Next Story 알림, Care 알림, 마케팅 수신) — 실제 on/off 동작
+- 10-2/10-3/10-4/10-5(아래)는 이 허브로 기능이 흡수되어 현재 링크되지 않습니다.
 
-### 10-2. My Story Archive
+### 10-2~10-5 ⬜ 스켈레톤 (10-1로 대체됨)
 
-- 파일: `src/pages/my/MyStoryArchive.jsx`
-- URL: `#/my-story-archive`
-- 목적: 저장한 AI Story와 공유 카드를 관리합니다.
-- 주요 내용: AI Journey Story, Journey Story Card, 공개 상태
-
-### 10-3. Saved Next Stories
-
-- 파일: `src/pages/my/SavedNextStories.jsx`
-- URL: `#/saved-stories`
-- 목적: 선택한 다음 Story를 모아 관리합니다.
-- 주요 내용: 목적지, Experience, 관련 MCM Experience
-
-### 10-4. Care History
-
-- 파일: `src/pages/my/MyCareHistory.jsx`
-- URL: `#/my-care-history`
-- 목적: 보유 제품 전체의 Care와 수선 이력을 확인합니다.
-
-### 10-5. Account
-
-- 파일: `src/pages/my/Account.jsx`
-- URL: `#/account`
-- 목적: 회원 정보와 데이터 사용 범위를 관리합니다.
-- 설정: 알림, Story 공개 범위, 데이터, 개인정보
+- My Story Archive(`my-story-archive`), Saved Next Stories(`saved-stories`), Care History(`my-care-history`), Account(`account`) — 아직 자리표시자이며, My Products 허브가 이 역할을 대신하고 있습니다. 추후 필요해지면 허브에서 각 화면으로 드릴다운하는 형태로 되살릴 수 있습니다.
 
 ---
 
-## 11. Community / Content · P2
+## 11. Community / Content · P2 ⬜ 스켈레톤 (미구현)
 
-### 11-1. Global Journey Map
-
-- 파일: `src/pages/community/GlobalJourneyMap.jsx`
-- URL: `#/global-map`
-- 목적: 공개에 동의한 사용자의 Journey를 국가와 도시 기준으로 탐색합니다.
-- 주요 내용: 공개 Story Pin, 도시별 Story, 연결된 MCM 제품
-
-### 11-2. City Story
-
-- 파일: `src/pages/community/CityStory.jsx`
-- URL: `#/city-story`
-- 목적: 하나의 도시를 고객 Story와 MCM Travel Story로 보여줍니다.
-- 주요 내용: 도시 이미지, 고객 Journey, 브랜드 콘텐츠, 관련 제품
-
-### 11-3. #MyMCMJourney
-
-- 파일: `src/pages/community/MyMCMJourney.jsx`
-- URL: `#/community-feed`
-- 목적: 공개 Story Card를 새로운 제품 발견 접점으로 사용합니다.
-- 주요 내용: 고객 Story, 제품, 도시, Experience, Product Discovery 연결
+11-1 Global Journey Map, 11-2 City Story, 11-3 #MyMCMJourney 모두 아직 손대지 않았습니다. 우선순위가 가장 낮은 섹션입니다.
 
 ---
 
@@ -376,22 +291,26 @@
 | 이름 | 파일 | 의미 |
 |---|---|---|
 | `routeId` | 각 `pages/**/*.jsx` | 페이지의 고유 URL ID |
-| `PAGE_SPECS` | `data/ia.js` | 페이지 문구, 기능, CTA, 순서 |
-| `PAGE_MAP` | `data/ia.js` | `routeId`로 페이지 정보 조회 |
-| `GLOBAL_NAV` | `data/ia.js` | 공통 상단·모바일 메뉴 |
-| `navigate(id)` | `App.jsx` | 다른 페이지로 이동 |
-| `pageId` | `App.jsx` | 현재 페이지 ID |
-| `layout` | `data/ia.js` | 페이지가 사용할 공통 UI 유형 |
-| `features` | `data/ia.js` | 해당 페이지의 주요 콘텐츠 |
-| `ctas` | `data/ia.js` | 버튼 문구와 이동 목적지 |
-| `selector` | `AppShell.jsx` | 제품 선택기 열림 상태 |
+| `PAGE_SPECS` / `PAGE_MAP` | `data/ia.js` | 라우팅 메타데이터(스켈레톤 페이지에서만 문구·CTA로 사용) |
+| `GLOBAL_NAV` / `PUBLIC_PAGES` | `data/ia.js` | 상단 내비 항목 / 비로그인 전용 페이지 목록 |
+| `navigate(id)` / `pageId` | `App.jsx` | 라우팅 이동 / 현재 페이지 ID |
+| `defaultRoute()` | `App.jsx` | 로그인 여부에 따른 첫 진입 화면 결정 |
+| `useApp()` | `state/AppState.jsx` | 전역 상태 훅 — 더미 데이터, 액션, 파생 값 전부 여기서 나옵니다 |
+| `currentUserProductId` / `selectProduct()` | `state/AppState.jsx` | 지금 보고 있는 제품과 전환 액션 |
+| `selectedJourneyId` / `selectedCareId` / `selectedNextId` | `state/AppState.jsx` | 목록→상세 페이지로 "지금 클릭한 항목"을 넘기는 공통 패턴 |
+| `isLoggedIn` / `login()` | `state/AppState.jsx` | 로그인 상태와 진입 라우팅 결정에 사용 |
+| `CITY_COORDS` / `CITY_REGION` / `CITY_PHOTOS` | `data/dummy.js` | Journey Map·Next Story에 쓰는 도시 좌표/지역/대표 사진 |
+| `DISCOVERY_PRODUCT_ID` | `data/dummy.js` | 01~03(미등록 방문자) 흐름에서 보여주는 제품 |
+| `ProductBar` / `ProductCarousel` / `MiniMap` / `EmptyState` | `components/` | 여러 페이지가 공유하는 컴포넌트 |
+| `createIAPage(routeId)` | `components/IAPage.jsx` | 아직 미구현인 화면이 쓰는 자리표시자 (08, 10-2~10-5, 11) |
 
 ## 수정 기준
 
-- 페이지 문구·기능·CTA 변경: `src/data/ia.js`
-- 공통 내비게이션·제품 선택기 변경: `src/components/AppShell.jsx`
-- 같은 유형 페이지의 레이아웃 변경: `src/components/IAPage.jsx`
-- 특정 페이지만 별도로 변경: 해당 `src/pages/**/페이지.jsx`
-- 컬러·간격·반응형 변경: `src/styles.css`
+- 더미 데이터(제품/유저/좌표 등) 변경: `src/data/dummy.js`
+- 전역 상태·액션 추가: `src/state/AppState.jsx`
+- 아직 미구현인 화면의 임시 문구·CTA: `src/data/ia.js` (`PAGE_SPECS`)
+- 공통 헤더·내비게이션: `src/components/AppShell.jsx`
+- 특정 화면 로직/마크업: 해당 `src/pages/**/페이지.jsx` (구현된 화면은 전부 독립 컴포넌트입니다)
+- 색상·간격·반응형: `src/styles.css` (`jm-` 접두사 클래스 체계)
 
-현재 각 페이지 파일은 `createIAPage(routeId)`로 공통 레이아웃을 사용합니다. 특정 페이지 개발이 시작되면 해당 파일을 독립 JSX 컴포넌트로 교체하면 됩니다.
+`createIAPage(routeId)`는 08, 10-2~10-5, 11 섹션에만 남아있습니다. 해당 화면 개발을 시작하면 다른 구현된 페이지들처럼 독립 JSX 컴포넌트로 교체하면 됩니다.
