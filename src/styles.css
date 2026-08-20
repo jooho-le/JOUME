@@ -215,6 +215,14 @@
 .jm-care-summary-card b{font-size:15px;display:block;margin-top:2px}
 .jm-care-summary-card p{font-size:12.5px;color:#777;margin:6px 0 0}
 
+/* Product Care Home */
+.jm-care-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:40px 0}
+.jm-care-card{display:flex;flex-direction:column;align-items:center;text-align:center;padding:36px 26px}
+.jm-care-card .jm-eyebrow{margin-bottom:16px}
+.jm-care-card-value{display:block;font-size:20px;font-weight:600;margin-bottom:10px}
+.jm-care-card p{font-size:12.5px;color:#777;line-height:1.7;margin:0 0 18px}
+.jm-care-card .jm-btn{margin-top:auto}
+
 /* Add Journey form */
 .jm-journeyform{display:grid;grid-template-columns:1fr 1fr;gap:44px}
 .jm-upload{border:1px dashed #bbb;background:#fafaf8;height:100%;min-height:340px;display:grid;place-items:center;text-align:center;position:relative;overflow:hidden}
