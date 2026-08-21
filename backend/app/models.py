@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import date, datetime
 from typing import Optional
 
-from sqlalchemy import Boolean, Date, DateTime, Float, ForeignKey, String, Text
+from sqlalchemy import Boolean, Date, DateTime, Float, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .database import Base
@@ -112,3 +112,67 @@ class CareRecord(Base):
     note: Mapped[str] = mapped_column(Text, default="")
     requested_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     completed_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+
+
+class CustomerContext(Base):
+    __tablename__ = "customer_contexts"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_product_id: Mapped[int] = mapped_column(ForeignKey("user_products.id", ondelete="CASCADE"), unique=True, index=True)
+    interests: Mapped[str] = mapped_column(Text, default="")
+    preferred_cities: Mapped[str] = mapped_column(Text, default="")
+    usage_purposes: Mapped[str] = mapped_column(Text, default="")
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+class StoryProposal(Base):
+    __tablename__ = "story_proposals"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_product_id: Mapped[int] = mapped_column(ForeignKey("user_products.id", ondelete="CASCADE"), index=True)
+    theme: Mapped[str] = mapped_column(String(120))
+    city: Mapped[str] = mapped_column(String(100))
+    activity: Mapped[str] = mapped_column(String(180))
+    reason: Mapped[str] = mapped_column(Text)
+    status: Mapped[str] = mapped_column(String(30), default="suggested")
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+
+class Experience(Base):
+    __tablename__ = "experiences"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    kind: Mapped[str] = mapped_column(String(40))
+    title: Mapped[str] = mapped_column(String(160))
+    city: Mapped[str] = mapped_column(String(100))
+    description: Mapped[str] = mapped_column(Text)
+    image_url: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
+    product_id: Mapped[Optional[int]] = mapped_column(ForeignKey("products.id"), nullable=True)
+
+
+class ExperienceRecommendation(Base):
+    __tablename__ = "experience_recommendations"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    story_proposal_id: Mapped[int] = mapped_column(ForeignKey("story_proposals.id", ondelete="CASCADE"), index=True)
+    experience_id: Mapped[int] = mapped_column(ForeignKey("experiences.id"))
+    rank: Mapped[int] = mapped_column(Integer, default=1)
+    reason: Mapped[str] = mapped_column(Text)
+    experience: Mapped[Experience] = relationship()
+
+
+class UserAction(Base):
+    __tablename__ = "user_actions"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    action_type: Mapped[str] = mapped_column(String(50), index=True)
+    target_type: Mapped[str] = mapped_column(String(50))
+    target_id: Mapped[int] = mapped_column(Integer)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+
+class AIAnalysis(Base):
+    __tablename__ = "ai_analyses"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_product_id: Mapped[int] = mapped_column(ForeignKey("user_products.id", ondelete="CASCADE"), index=True)
+    context_json: Mapped[str] = mapped_column(Text)
+    input_snapshot_json: Mapped[str] = mapped_column(Text)
+    model: Mapped[str] = mapped_column(String(80))
+    provider_response_id: Mapped[str] = mapped_column(String(120), default="")
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)

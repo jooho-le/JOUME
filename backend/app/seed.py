@@ -2,7 +2,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from .auth import hash_password
-from .models import Product, User, UserProduct
+from .models import Experience, Product, User, UserProduct
 
 PRODUCTS = [
     dict(sku="MMA-AVE1SC0001", name="STARK BACKPACK IN VISETOS", collection="Stark", color="Cognac", material="Visetos coated canvas", manufacture_country="Korea", price=1450000, image_url="/src/assets/visetos-backpack.png", story="도시를 넘나드는 이동을 위해 탄생한 MCM의 대표 백팩입니다.", care_summary="부드러운 마른 천으로 닦고 직사광선과 습기를 피해 보관하세요."),
@@ -22,4 +22,13 @@ def seed(db: Session) -> None:
         db.flush()
         first_product = db.scalar(select(Product).order_by(Product.id))
         db.add(UserProduct(user_id=user.id, product_id=first_product.id, source="official", is_current=True))
+        db.commit()
+    if not db.scalar(select(Experience.id).limit(1)):
+        products = db.scalars(select(Product).order_by(Product.id)).all()
+        db.add_all([
+            Experience(kind="store", title="MCM HAUS Seoul", city="서울", description="제품과 Story를 직접 연결하는 플래그십 경험"),
+            Experience(kind="brand_content", title="Design Walk Archive", city="ALL", description="도시의 디자인과 MCM Heritage를 함께 읽는 콘텐츠"),
+            Experience(kind="care", title="Official Product Care", city="ALL", description="다음 Journey를 위한 공식 점검과 관리"),
+            Experience(kind="product", title=products[1].name, city="ALL", description="Story 선택 이후에만 제안되는 관련 제품", product_id=products[1].id),
+        ])
         db.commit()
