@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap');
-:root{font-family:'Noto Sans KR',sans-serif;color:#111;background:#f4f2ee;--orange:#ed6a2c;--cognac:#bd5729;--line:#d3d0ca}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f4f2ee}button,input,textarea{font:inherit}button{cursor:pointer}.ia-site{min-height:100vh;overflow:hidden}
+:root{font-family:'Noto Sans KR',sans-serif;color:#111;background:#faf9f5;--orange:#ed6a2c;--cognac:#bd5729;--line:#d3d0ca;--bg:#faf9f5}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg)}button,input,textarea{font:inherit}button{cursor:pointer}.ia-site{min-height:100vh;overflow:hidden}
 .ia-header{height:84px;background:#fff;display:flex;align-items:center;padding:0 max(28px,calc((100vw - 1480px)/2));gap:52px;position:sticky;top:0;z-index:50;border-bottom:1px solid #111}.ia-logo{border:0;background:none;font-size:27px;font-weight:900;letter-spacing:.16em}.ia-logo small{font:8px 'IBM Plex Mono';display:block;letter-spacing:.28em;color:var(--cognac)}.ia-header nav{display:flex;gap:36px;margin:auto}.ia-header nav button{border:0;background:none;color:#777;font:10px 'IBM Plex Mono';letter-spacing:.14em;padding:34px 0 31px;position:relative}.ia-header nav button:after{content:'';position:absolute;left:50%;right:50%;bottom:23px;height:1px;background:var(--orange);transition:.35s}.ia-header nav button:hover,.ia-header nav button.on{color:#111}.ia-header nav button:hover:after,.ia-header nav button.on:after{left:0;right:0}.ia-product-trigger{width:195px;border:0;background:none;display:flex;align-items:center;padding:0;text-align:left}.ia-product-trigger img{width:42px;height:42px;object-fit:contain;background:#ebe8e3}.ia-product-trigger span{font:9px 'IBM Plex Mono';margin-left:10px}.ia-product-trigger small{display:block;color:#888;margin-top:4px;font-size:8px}.ia-product-trigger b{margin-left:auto}.ia-selector{position:fixed;z-index:60;right:max(24px,calc((100vw - 1480px)/2));top:75px;width:300px;background:#fff;border:1px solid #111;box-shadow:0 22px 60px #0002;padding:8px;animation:drop .35s ease both}.ia-selector button{width:100%;border:0;border-bottom:1px solid #eee;background:#fff;padding:13px;display:flex;align-items:center;text-align:left}.ia-selector button:hover,.ia-selector button.selected{background:#fff5ee}.ia-selector img,.selector-plus,.selector-pass{width:48px;height:48px;object-fit:contain;background:#eee;display:grid;place-items:center;color:var(--orange);font-size:20px}.ia-selector span:nth-child(2){margin-left:12px}.ia-selector b,.ia-selector small{display:block}.ia-selector b{font-size:11px}.ia-selector small{font-size:9px;color:#888;margin-top:4px}
 .ia-page{max-width:1480px;min-height:calc(100vh - 84px);margin:auto;background:#fff;padding:32px 40px 80px}.ia-breadcrumb{font:9px 'IBM Plex Mono';color:#888;letter-spacing:.16em;border-bottom:1px solid var(--line);padding-bottom:14px}.ia-breadcrumb span{color:var(--orange);margin-right:15px}.ia-page-head{display:flex;justify-content:space-between;align-items:flex-end;margin:50px 0 42px}.ia-page-head>div>span{font:10px 'IBM Plex Mono';color:var(--cognac);letter-spacing:.18em}.ia-page-head h1{font-size:clamp(42px,5vw,78px);font-weight:600;line-height:1.05;letter-spacing:-.065em;margin:13px 0 0;max-width:1080px;word-break:keep-all}.ia-page-head>p{font:9px 'IBM Plex Mono';color:#999}.reveal{animation:reveal .85s cubic-bezier(.2,.7,.2,1) both}
 .ia-actions{display:flex;gap:12px;margin-top:36px;flex-wrap:wrap}.ia-actions button{min-width:210px;border:1px solid var(--orange);background:var(--orange);color:#fff;padding:17px 18px;text-align:left;font-size:11px;font-weight:700;transition:.3s}.ia-actions button span{float:left}.ia-actions button b{float:right;transition:.3s}.ia-actions button:hover{transform:translateY(-3px);background:#111;border-color:#111}.ia-actions button:hover b{transform:translate(3px,-3px)}.ia-actions button.outline{background:#fff;color:#111;border-color:#999}.ia-actions button.outline:hover{background:#111;color:#fff}
@@ -14,3 +14,431 @@
 @keyframes reveal{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}@keyframes drop{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}@keyframes pulse{0%{box-shadow:0 0 0 0 #ed6a2c66}70%{box-shadow:0 0 0 13px #ed6a2c00}100%{box-shadow:0 0 0 0 #ed6a2c00}}@keyframes route{to{stroke-dashoffset:-26}}@keyframes mapDrift{to{transform:translate(150px,120px)}}@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 @media(max-width:900px){.ia-header{padding:0 18px;height:68px;gap:15px}.ia-logo{font-size:20px}.ia-header nav{position:fixed;bottom:0;left:0;right:0;background:#fff;height:64px;z-index:50;justify-content:space-around;gap:0;border-top:1px solid #111}.ia-header nav button{padding:23px 7px;font-size:8px}.ia-product-trigger{width:auto;margin-left:auto}.ia-product-trigger span,.ia-product-trigger b{display:none}.ia-selector{right:10px;top:61px}.ia-page{padding:25px 18px 100px}.ia-page-head{margin:36px 0 28px}.ia-product-layout,.ia-story-visual,.ia-form-stage{grid-template-columns:1fr}.editorial-image img,.ia-form-stage>.editorial-image img,.ia-story-visual img{height:520px}.ia-product-info{padding:35px 0}.ia-story-visual>div{padding:45px 25px}.ia-context{align-items:flex-start;flex-direction:column;gap:10px}.ia-context p{margin:0}.ia-recommend-grid,.ia-story-proposals{grid-template-columns:1fr}.ia-story-proposals article+article{border-left:0}.ia-recommend-grid article:nth-child(2){padding-top:0}.recommend-image{height:460px}.ia-feature-row{grid-template-columns:1fr 1fr}.ia-dashboard{grid-template-columns:1fr 1fr}.ia-map{height:480px}.ia-narrow{padding:38px 25px}}
 @media(max-width:520px){.ia-page-head>p{display:none}.editorial-image img,.ia-story-visual img{height:430px}.editorial-image figcaption small{display:none}.ia-product-info h2{font-size:38px}.ia-feature-row,.ia-dashboard{grid-template-columns:1fr}.ia-dashboard strong{font-size:56px}.ia-story-visual h2{font-size:41px}.recommend-image{height:390px}.ia-actions button{width:100%}.ia-timeline article{grid-template-columns:75px 1fr}.ia-page-nav i{display:none}}
+
+/* ============================================================
+   JOUME — real page system (jm-*)
+   ============================================================ */
+
+.jm-site{min-height:100vh}
+.jm-header{height:76px;background:#fff;display:flex;align-items:center;gap:48px;padding:0 max(28px,calc((100vw - 1480px)/2));position:sticky;top:0;z-index:50;border-bottom:1px solid #111}
+.jm-logo{border:0;background:none;font-size:24px;font-weight:900;letter-spacing:.14em}
+.jm-logo small{display:block;font:8px 'IBM Plex Mono';letter-spacing:.28em;color:var(--cognac);font-weight:500}
+.jm-header nav{display:flex;gap:34px}
+.jm-header nav button{border:0;background:none;color:#777;font:10px 'IBM Plex Mono';letter-spacing:.14em;padding:30px 0 27px;position:relative}
+.jm-header nav button:after{content:'';position:absolute;left:50%;right:50%;bottom:20px;height:1px;background:var(--orange);transition:.3s}
+.jm-header nav button:hover,.jm-header nav button.on{color:#111}
+.jm-header nav button:hover:after,.jm-header nav button.on:after{left:0;right:0}
+.jm-nav-icon{display:none}
+
+.jm-page{max-width:1200px;min-height:calc(100vh - 76px);margin:auto;background:#fff;padding:44px 32px 96px}
+.jm-eyebrow{display:block;font:10px 'IBM Plex Mono';letter-spacing:.18em;color:var(--cognac);margin-bottom:14px}
+.jm-h1{font-size:clamp(32px,4vw,56px);font-weight:600;letter-spacing:-.04em;line-height:1.08;margin:0 0 16px;word-break:keep-all}
+.jm-lede{font-size:15px;line-height:1.75;color:#555;max-width:56ch}
+.jm-page-head-row{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap}
+.jm-page-head-row .jm-btn{flex:none;margin-top:6px}
+
+.jm-card{background:#fff;border:1px solid var(--line);padding:28px}
+.jm-row{display:flex;align-items:center;gap:16px}
+.jm-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.jm-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+
+.jm-btn{border:1px solid #999;background:#fff;color:#111;font:11px/1 'IBM Plex Mono';letter-spacing:.04em;padding:16px 22px;font-weight:600;transition:.25s;display:inline-flex;align-items:center;gap:10px}
+.jm-btn:hover{border-color:#111}
+.jm-btn.primary{border-color:var(--orange);background:var(--orange);color:#fff;padding:18px 26px;font-size:12px}
+.jm-btn.primary:hover{background:#111;border-color:#111;transform:translateY(-2px)}
+.jm-btn.secondary{border-color:#bbb;color:#555;background:transparent}
+.jm-btn.secondary:hover{border-color:#111;color:#111}
+.jm-btn.ghost{border:0;background:none;color:var(--cognac);padding:8px 0;text-decoration:underline;text-underline-offset:4px}
+.jm-btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.jm-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+
+.jm-chip{border:1px solid #bbb;background:#fff;color:#444;font:10px 'IBM Plex Mono';padding:11px 16px;letter-spacing:.03em;transition:.2s}
+.jm-chip:hover{border-color:var(--orange)}
+.jm-chip.active{border-color:var(--orange);background:var(--orange);color:#fff}
+.jm-chip-row{display:flex;flex-wrap:wrap;gap:9px}
+
+.jm-badge{display:inline-flex;align-items:center;gap:6px;font:9px 'IBM Plex Mono';letter-spacing:.1em;color:var(--cognac);border:1px solid var(--cognac);padding:6px 11px}
+.jm-badge.solid{background:var(--cognac);color:#fff;border-color:var(--cognac)}
+
+.jm-table{border-top:1px solid #111;margin-top:8px}
+.jm-table div{display:flex;justify-content:space-between;gap:20px;padding:14px 0;border-bottom:1px solid var(--line);font-size:13px}
+.jm-table span:first-child{color:#888;font:10px 'IBM Plex Mono'}
+.jm-table span:last-child{text-align:right;max-width:60%}
+
+.jm-field{display:block;margin-bottom:22px}
+.jm-field span{display:block;font:9px 'IBM Plex Mono';color:#777;letter-spacing:.1em;margin-bottom:9px}
+.jm-field input,.jm-field textarea,.jm-field select{width:100%;border:0;border-bottom:1px solid #aaa;padding:11px 2px;background:transparent;font-size:15px;outline:none;font-family:inherit}
+.jm-field input:focus,.jm-field textarea:focus,.jm-field select:focus{border-color:var(--orange)}
+.jm-field textarea{min-height:90px;resize:vertical}
+.jm-hint{font-size:11px;color:#999;margin-top:26px}
+
+/* Product bar (shared, embedded in page — not header) */
+.jm-productbar{display:flex;align-items:center;gap:12px;border:1px solid var(--line);background:#fff;padding:9px 16px;margin-bottom:32px;max-width:fit-content;position:relative}
+.jm-productbar-popover{position:absolute;top:calc(100% + 8px);left:0;z-index:30;background:#fff;border:1px solid var(--line);box-shadow:0 18px 44px rgba(0,0,0,.14);padding:6px;width:300px;max-width:calc(100vw - 56px)}
+.jm-product-listrow{width:100%;border:0;border-bottom:1px solid var(--line);background:#fff;padding:12px;display:flex;align-items:center;text-align:left;gap:12px}
+.jm-product-listrow:last-child{border-bottom:0}
+.jm-product-listrow:hover,.jm-product-listrow.selected{background:#faf3ec}
+.jm-product-listrow img{width:44px;height:44px;object-fit:contain;background:#f0ede8;mix-blend-mode:multiply;flex:none}
+.jm-product-listrow span{display:block}
+.jm-product-listrow b{display:block;font-size:12.5px;font-weight:600}
+.jm-product-listrow small{display:block;color:#999;font-size:10.5px;margin-top:3px}
+.jm-productbar img{width:38px;height:38px;object-fit:contain;mix-blend-mode:multiply;flex:none;background:#f4f1ec}
+.jm-productbar b{font-size:13px;font-weight:600;letter-spacing:-.01em}
+.jm-productbar > button{margin-left:24px;border:0;background:none;font:9px 'IBM Plex Mono';color:var(--cognac);text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+
+/* Product carousel */
+.jm-carousel{display:flex;align-items:center;gap:12px;margin:28px 0}
+.jm-carousel-nav{border:1px solid #ccc;background:#fff;width:38px;height:38px;border-radius:50%;font-size:16px;flex:none;line-height:1}
+.jm-carousel-nav:hover{border-color:#111}
+.jm-carousel-track{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px}
+.jm-carousel-track.centered{justify-content:center}
+.jm-carousel-track::-webkit-scrollbar{display:none}
+.jm-carousel-card{flex:0 0 220px;scroll-snap-align:start;border:1px solid var(--line);background:#fff;padding:16px;cursor:pointer;position:relative;transition:.2s}
+.jm-carousel-card:hover{border-color:#999}
+.jm-carousel-card.active{border-color:var(--orange);box-shadow:0 0 0 1px var(--orange)}
+.jm-carousel-img{height:140px;background:#f0ede8;display:grid;place-items:center;margin-bottom:14px}
+.jm-carousel-img img{max-width:80%;max-height:80%;object-fit:contain;mix-blend-mode:multiply}
+.jm-carousel-card span{font:8px 'IBM Plex Mono';color:var(--cognac);letter-spacing:.1em}
+.jm-carousel-card b{display:block;font-size:13px;margin:8px 0 4px}
+.jm-carousel-card small{color:#888;font-size:11px}
+.jm-carousel-badge{position:absolute;top:14px;right:14px;font:8px 'IBM Plex Mono';background:var(--orange);color:#fff;padding:4px 8px;font-style:normal}
+.jm-carousel-add{background:#f4f1ed;border:1px dashed #bbb}
+.jm-carousel-add span{font-size:26px;color:#bbb}
+.jm-carousel-card.add:hover .jm-carousel-add{border-color:var(--orange);color:var(--orange)}
+
+/* Empty state */
+.jm-empty{border:1px dashed #ccc;background:#fbfaf8;padding:70px 40px;text-align:center;max-width:560px;margin:20px auto}
+.jm-empty span{display:block;font:9px 'IBM Plex Mono';color:var(--cognac);letter-spacing:.14em;margin-bottom:16px}
+.jm-empty h2{font-size:24px;margin:0 0 12px;font-weight:600}
+.jm-empty p{color:#777;font-size:13px;line-height:1.7;margin:0 0 26px}
+
+/* 01-1 Product Discovery */
+.jm-discovery-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:0;border:1px solid var(--line);background:#fff;overflow:hidden}
+.jm-discovery-hero figure{margin:0;background:#eee9e2;display:grid;place-items:center;min-height:420px}
+.jm-discovery-hero img{width:100%;height:420px;object-fit:contain;mix-blend-mode:multiply}
+.jm-discovery-hero .jm-copy{padding:44px}
+.jm-discovery-hero blockquote{font-family:Georgia,serif;font-style:italic;font-size:18px;line-height:1.7;color:#333;border-left:2px solid var(--orange);padding-left:18px;margin:24px 0}
+.jm-discovery-strip{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid #111;border-top:0;margin-top:0}
+.jm-discovery-strip>div{padding:26px 22px;border-left:1px solid var(--line)}
+.jm-discovery-strip>div:first-child{border-left:0}
+.jm-discovery-strip b{display:block;font:9px 'IBM Plex Mono';color:var(--orange);margin-bottom:10px}
+.jm-discovery-strip p{font-size:12px;color:#666;line-height:1.6;margin:0}
+
+/* 01-2 Product Detail */
+.jm-detail{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.jm-detail-image{background:#eee9e2;min-height:520px;display:grid;place-items:center;border:1px solid var(--line)}
+.jm-detail-image img{width:80%;object-fit:contain;mix-blend-mode:multiply}
+.jm-price{font:15px 'IBM Plex Mono';margin:14px 0 26px}
+.jm-swatches{display:flex;gap:10px;margin:6px 0 26px}
+.jm-swatch{width:34px;height:34px;border-radius:50%;border:2px solid transparent;cursor:pointer;display:grid;place-items:center}
+.jm-swatch.active{border-color:#111}
+.jm-swatch i{width:24px;height:24px;border-radius:50%;display:block}
+
+/* 01-3 External Entry (scan) */
+.jm-scan{display:grid;place-items:center;text-align:center;padding:70px 20px;border:1px solid var(--line);background:#fff}
+.jm-scan-ring{width:160px;height:160px;border-radius:50%;border:2px dashed var(--orange);display:grid;place-items:center;margin-bottom:30px;animation:scanPulse 2.4s infinite}
+.jm-scan-ring span{font-size:44px}
+@keyframes scanPulse{0%{box-shadow:0 0 0 0 #ed6a2c33}70%{box-shadow:0 0 0 22px #ed6a2c00}100%{box-shadow:0 0 0 0 #ed6a2c00}}
+.jm-scan h2{font-size:24px;margin:0 0 10px}
+.jm-scan p{color:#777;font-size:13px;max-width:38ch}
+
+/* 02-1 Passport */
+.jm-passport-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:28px}
+.jm-passport-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:44px}
+.jm-passport-grid img{width:100%;background:#eee9e2;object-fit:contain;mix-blend-mode:multiply;border:1px solid var(--line)}
+.jm-heritage{background:#171411;color:#fff;padding:40px;margin-top:36px}
+.jm-heritage span{font:9px 'IBM Plex Mono';color:#f3a178;letter-spacing:.14em}
+.jm-heritage p{color:#cfc8c1;line-height:1.8;font-size:13px;margin-top:14px}
+
+/* 03-1 Login */
+.jm-auth{max-width:400px;margin:20px auto;padding:40px;border:1px solid var(--line);background:#fff}
+.jm-auth h1{text-align:center;margin-bottom:6px}
+.jm-auth .jm-lede{text-align:center;margin:0 auto 30px}
+.jm-social{display:grid;gap:10px;margin-top:22px}
+.jm-social button{border:1px solid #ccc;background:#fff;padding:13px;font-size:12px}
+.jm-auth-switch{text-align:center;margin-top:22px;font-size:12px;color:#777}
+
+/* 03-2 Registration */
+.jm-register-card{display:flex;gap:22px;align-items:center;border:1px solid var(--line);padding:22px;background:#fff}
+.jm-register-card img{width:80px;height:80px;object-fit:contain;background:#f0ede8}
+.jm-check-row{display:flex;gap:14px;align-items:flex-start;margin:22px 0;font-size:13px;color:#444;line-height:1.6}
+.jm-check-row i{width:20px;height:20px;border:1px solid var(--orange);border-radius:50%;display:grid;place-items:center;color:var(--orange);font-style:normal;flex:none;font-size:11px}
+
+/* 03-3 Start Story */
+.jm-onboard-section{margin-bottom:34px}
+.jm-onboard-section h3{font:10px 'IBM Plex Mono';letter-spacing:.12em;color:#888;margin:0 0 14px}
+
+/* Story Home — greeting chip, loop banner, narrative dash */
+.jm-own-chip{border:1px solid var(--line);padding:10px 18px;display:flex;align-items:center;gap:10px;background:#fff;flex:none;margin-top:6px}
+.jm-own-chip span{font:9px 'IBM Plex Mono';color:#999;letter-spacing:.08em}
+.jm-own-chip b{font-size:16px;color:var(--cognac)}
+
+
+.jm-narrative-dash{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);margin:40px 0}
+.jm-narrative-dash .panel{padding:34px 32px;background:#fff}
+.jm-narrative-dash .panel + .panel{border-left:1px solid var(--line)}
+.jm-narrative-dash .panel.dark{
+  color:#fff;background-color:var(--cognac);
+  background-image:
+    linear-gradient(45deg,#00000016 25%,transparent 25%,transparent 75%,#00000016 75%),
+    linear-gradient(45deg,#00000016 25%,transparent 25%,transparent 75%,#00000016 75%);
+  background-size:34px 34px;background-position:0 0,17px 17px;
+}
+.jm-narrative-dash h3{font-size:22px;font-weight:600;letter-spacing:-.02em;line-height:1.3;margin:14px 0 12px}
+.jm-narrative-dash p{font-size:13px;line-height:1.8;color:#666;margin:0 0 20px;max-width:36ch}
+.jm-narrative-dash .panel.dark p{color:#f4ded0}
+.jm-narrative-dash .panel.dark .jm-btn.ghost{color:#fff;border-bottom-color:#fff}
+.jm-narrative-dash .jm-btn.ghost{border:0;border-bottom:1px solid var(--cognac);padding:0 0 2px;text-decoration:none}
+
+.jm-journey-card.add{display:grid;place-items:center;height:100%;min-height:216px;border-style:dashed;color:var(--cognac);font-size:26px;background:#faf9f5}
+.jm-journey-card.add:hover{background:#f4f1ec}
+
+/* Story Home dashboard — flat MCM heritage cognac brown, no pattern */
+.jm-dash{display:grid;grid-template-columns:repeat(3,1fr);margin-bottom:40px;color:#fff;background:var(--cognac)}
+.jm-dash>div{padding:26px 22px;border-right:1px solid #ffffff40}
+.jm-dash>div:last-child{border-right:0}
+.jm-dash span{display:block;font:9px 'IBM Plex Mono';color:#fbd8bf;letter-spacing:.12em;margin-bottom:14px}
+.jm-dash strong{font-size:44px;font-weight:300;letter-spacing:-.03em;color:#fff}
+.jm-section-head{display:flex;justify-content:space-between;align-items:baseline;margin:44px 0 18px}
+.jm-section-head h3{font-size:19px;margin:0}
+.jm-journey-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.jm-journey-card{border:1px solid var(--line);background:#fff;cursor:pointer;transition:.2s}
+.jm-journey-card:hover{border-color:#999}
+.jm-journey-card img{width:100%;height:150px;object-fit:contain;background:#f0ede8;mix-blend-mode:multiply}
+.jm-journey-card .body{padding:16px}
+.jm-journey-card b{display:block;font-size:13px;margin-bottom:4px}
+.jm-journey-card small{color:#999;font-size:10px;font-family:'IBM Plex Mono'}
+.jm-mini-map{height:220px;background:#e5e1da;position:relative;overflow:hidden;border:1px solid var(--line)}
+.jm-mini-map.wide{height:360px;margin-bottom:36px}
+.jm-mini-map-empty{display:grid;place-items:center}
+.jm-mini-map-empty span{font:10px 'IBM Plex Mono';color:#999}
+
+.jm-care-summary-card{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;border:1px solid var(--line);background:#fff;padding:24px 28px;margin-bottom:44px}
+.jm-care-summary-card b{font-size:15px;display:block;margin-top:2px}
+.jm-care-summary-card p{font-size:12.5px;color:#777;margin:6px 0 0}
+
+/* Next Story */
+.jm-context{border-top:1px solid #111;border-bottom:1px solid var(--line);padding:20px 2px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin:32px 0}
+.jm-context span{font:9px 'IBM Plex Mono';color:var(--cognac);letter-spacing:.1em}
+.jm-context b{font-size:13px}
+.jm-context p{font-size:12px;color:#777;margin:0 0 0 auto}
+
+.jm-next-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.jm-next-grid > :nth-child(2){margin-top:64px}
+.jm-next-card{border:1px solid var(--line);cursor:pointer;display:flex;flex-direction:column;transition:.2s}
+.jm-next-card:hover{border-color:#999}
+.jm-next-card h3{font-size:26px;font-weight:600;letter-spacing:-.02em;margin:14px 0 12px}
+.jm-next-card .jm-tag{align-self:flex-start}
+.jm-next-card p{font-size:13px;line-height:1.8;color:#666;margin:0 0 20px}
+.jm-next-card.destination{
+  position:relative;min-height:340px;padding:30px;color:#fff;
+  background-color:#3a2a1c;background-size:cover;background-position:center;
+  justify-content:flex-end;overflow:hidden;
+}
+.jm-next-card.destination .shade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,8,6,.92),rgba(10,8,6,.1) 60%)}
+.jm-next-card.destination > *{position:relative;z-index:1}
+.jm-next-card.destination .jm-tag{border-color:#f3a178;color:#f3a178}
+.jm-next-card.destination p{color:#f1e6de}
+.jm-next-card.destination .jm-btn.ghost{color:#fff}
+.jm-next-card-img{height:220px;background:#eee9e2;display:grid;place-items:center}
+.jm-next-card-img img{width:60%;height:60%;object-fit:contain;mix-blend-mode:multiply}
+.jm-next-card.product .body{padding:28px}
+.jm-next-card.product p{flex:1}
+
+.jm-next-hero{position:relative;min-height:320px;background-size:cover;background-position:center;background-color:#3a2a1c;display:flex;flex-direction:column;justify-content:flex-end;padding:36px;color:#fff;overflow:hidden}
+.jm-next-hero .shade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,8,6,.85),rgba(10,8,6,.05) 55%)}
+.jm-next-hero > *{position:relative;z-index:1}
+.jm-next-hero .jm-tag{border-color:#f3a178;color:#f3a178;align-self:flex-start;margin-bottom:14px}
+.jm-next-hero h1{margin:0;font-size:clamp(32px,4vw,52px);font-weight:600;letter-spacing:-.03em}
+
+.jm-next-detail-grid{display:grid;grid-template-columns:1.3fr .9fr;gap:44px;margin-top:36px}
+.jm-next-detail-side{border:1px solid var(--line);padding:28px;height:max-content}
+.jm-next-detail-side b{display:block;font-size:16px;margin:12px 0 10px}
+.jm-next-detail-side p{font-size:13px;color:#666;line-height:1.8;margin:0 0 12px}
+.jm-next-detail-side small{display:block;font:10px 'IBM Plex Mono';color:#999;margin-bottom:18px}
+
+.jm-reason-list{display:flex;flex-direction:column;gap:24px;margin:32px 0 40px}
+.jm-reason-list .r{border-left:2px solid var(--cognac);padding-left:20px}
+.jm-reason-list .r .jm-eyebrow{margin-bottom:8px}
+.jm-reason-list .r p{font-size:14px;line-height:1.8;color:#555;margin:0;max-width:60ch}
+
+/* Product Care Home */
+.jm-care-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:40px 0}
+.jm-care-card{display:flex;flex-direction:column;align-items:center;text-align:center;padding:36px 26px}
+.jm-care-card .jm-eyebrow{margin-bottom:16px}
+.jm-care-card-value{display:block;font-size:20px;font-weight:600;margin-bottom:10px}
+.jm-care-card p{font-size:12.5px;color:#777;line-height:1.7;margin:0 0 18px}
+.jm-care-card .jm-btn{margin-top:auto}
+
+/* Add Journey form */
+.jm-journeyform{display:grid;grid-template-columns:1fr 1fr;gap:44px}
+.jm-upload{border:1px dashed #bbb;background:#fafaf8;height:100%;min-height:340px;display:grid;place-items:center;text-align:center;position:relative;overflow:hidden}
+.jm-upload img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.jm-upload span{font-size:13px;color:#999}
+.jm-upload input{position:absolute;inset:0;opacity:0;cursor:pointer}
+
+/* Journey Complete */
+.jm-complete{max-width:520px;margin:10px auto;text-align:center;padding:60px 30px;border:1px solid var(--line);background:#fff}
+.jm-complete .check{width:60px;height:60px;border-radius:50%;background:var(--orange);color:#fff;display:grid;place-items:center;margin:0 auto 24px;font-size:22px}
+.jm-complete img{width:100%;height:220px;object-fit:contain;background:#f0ede8;mix-blend-mode:multiply;margin-bottom:24px}
+.jm-complete h2{font-size:26px;margin:0 0 10px}
+.jm-complete p{color:#777;font-size:13px;margin:0 0 4px}
+.jm-complete .jm-actions{justify-content:center}
+
+/* My MCM hub — consolidated 2-column layout */
+.jm-my-grid{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);margin-top:32px}
+.jm-my-col{padding:32px}
+.jm-my-col + .jm-my-col{border-left:1px solid var(--line)}
+.jm-my-row{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--line);cursor:pointer;transition:.2s}
+.jm-my-row:hover{padding-left:6px}
+.jm-my-row img{width:44px;height:44px;object-fit:contain;background:#f0ede8;mix-blend-mode:multiply;flex:none}
+.jm-my-row .info{flex:1}
+.jm-my-row .name{font-size:13px;font-weight:600}
+.jm-my-row .sum{font-size:11px;color:#999;margin-top:3px}
+.jm-my-row .chev{color:var(--cognac)}
+
+.jm-toggle-row{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);font-size:13px}
+
+.jm-switch{width:40px;height:22px;border:1px solid var(--line);border-radius:11px;background:#f0ede8;position:relative;flex:none}
+.jm-switch span{position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#171411;transition:.2s}
+.jm-switch.on{background:var(--cognac);border-color:var(--cognac)}
+.jm-switch.on span{left:20px;background:#fff}
+
+/* Journey Map — immersive top-hero map + bottom city card grid */
+.jm-map{height:520px;background:#e5e1da;position:relative;overflow:hidden;border:1px solid var(--line)}
+.jm-map.hero{height:min(68vh,640px)}
+
+.jm-city-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:28px}
+.jm-city-card{border:1px solid var(--line);background:#fff;cursor:pointer;transition:.2s;outline:none}
+.jm-city-card:hover,.jm-city-card:focus-visible{border-color:var(--orange);box-shadow:0 0 0 1px var(--orange)}
+.jm-city-card .num{display:block;font:10px 'IBM Plex Mono';color:var(--cognac);padding:10px 14px 0}
+.jm-city-card img{width:100%;height:120px;object-fit:cover;display:block;margin-top:8px}
+.jm-city-card .info{padding:12px 14px 16px}
+.jm-city-card .city{font-size:13px;font-weight:600}
+.jm-city-card .sub{font:10px 'IBM Plex Mono';color:#999;margin-top:4px}
+
+/* Leaflet — real map re-skinned to match the brand */
+.jm-leaflet-pin span{display:block;width:14px;height:14px;background:var(--orange);border:3px solid #fff;border-radius:50%;box-shadow:0 1px 5px rgba(0,0,0,.4);animation:pulse 2s infinite;transition:.2s}
+.jm-leaflet-pin.active span{width:20px;height:20px;background:#171411;box-shadow:0 0 0 7px rgba(237,106,44,.35)}
+.leaflet-tooltip{font:10px 'IBM Plex Mono';letter-spacing:.04em;background:#171411;color:#fff;border:0;border-radius:0;padding:5px 9px;box-shadow:none}
+.leaflet-tooltip:before{display:none}
+.leaflet-control-zoom{border:1px solid var(--line) !important;box-shadow:none !important}
+.leaflet-control-zoom a{border-radius:0 !important;color:#171411 !important}
+
+/* Journey Timeline / Archive / Care History */
+.jm-timeline{border-top:2px solid #111}
+.jm-timeline-item{display:grid;grid-template-columns:120px 90px 1fr;gap:20px;padding:22px 4px;border-bottom:1px solid var(--line);cursor:pointer;transition:.2s}
+.jm-timeline-item:hover{background:#f6f3ef;padding-left:14px}
+.jm-timeline-item time{font:10px 'IBM Plex Mono';color:#999}
+.jm-timeline-item img{width:90px;height:64px;object-fit:cover;background:#eee}
+.jm-timeline-item h4{margin:0 0 6px;font-size:15px}
+.jm-timeline-item p{margin:0;font-size:12px;color:#777}
+.jm-tag{display:inline-block;font:9px 'IBM Plex Mono';color:var(--orange);border:1px solid var(--orange);padding:3px 8px;margin-top:8px}
+
+/* Journey Detail */
+.jm-jdetail{display:grid;grid-template-columns:1fr 1fr;gap:44px}
+.jm-jdetail img{width:100%;height:440px;object-fit:cover;background:#eee}
+.jm-jdetail-note{font-family:Georgia,serif;font-style:italic;font-size:17px;line-height:1.8;color:#333;margin:22px 0;border-left:2px solid var(--orange);padding-left:18px}
+
+/* Archive filters */
+.jm-filters{display:flex;gap:24px;flex-wrap:wrap;border-top:1px solid #111;border-bottom:1px solid var(--line);padding:18px 0;margin-bottom:24px}
+.jm-filter-group{display:flex;align-items:center;gap:10px}
+.jm-filter-group span{font:9px 'IBM Plex Mono';color:#999}
+.jm-archive-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+
+/* AI Journey Story */
+.jm-ai-hero{background:#171411;color:#fff;padding:60px 48px;margin-bottom:36px}
+.jm-ai-hero span{font:10px 'IBM Plex Mono';color:#f3a178;letter-spacing:.16em}
+.jm-ai-hero h2{font-family:Georgia,serif;font-weight:400;font-size:clamp(28px,3.4vw,42px);line-height:1.4;margin:20px 0;max-width:26ch}
+.jm-ai-hero p{color:#cfc8c1;line-height:1.9;font-size:14px;max-width:64ch}
+.jm-ai-skeleton{background:linear-gradient(90deg,#241f1b,#342d27,#241f1b);background-size:200% 100%;animation:jm-shimmer 1.4s linear infinite;border-radius:2px}
+.jm-ai-skeleton.title{height:36px;margin:20px 0;max-width:18ch}
+.jm-ai-skeleton.line{height:12px;margin:10px 0;max-width:64ch}
+.jm-ai-skeleton.line.short{max-width:40ch}
+@keyframes jm-shimmer{from{background-position:200% 0}to{background-position:0 0}}
+.jm-ai-meta{display:flex;gap:28px;flex-wrap:wrap;margin:26px 0}
+.jm-ai-meta div{font:10px 'IBM Plex Mono';color:#998f89}
+.jm-ai-meta b{display:block;color:#fff;font-size:16px;font-family:'Noto Sans KR';margin-top:6px}
+
+/* Inline "fits this story" product recommendation (embedded in AI Journey Story) */
+.jm-fit-products{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.jm-fit-card{display:flex;gap:18px;border:1px solid var(--line);background:#fff;padding:18px}
+.jm-fit-card img{width:96px;height:96px;object-fit:contain;background:#f0ede8;flex:none;mix-blend-mode:multiply}
+.jm-fit-card b{display:block;font-size:14px;margin:8px 0 6px}
+.jm-fit-card p{font-family:Georgia,serif;font-style:italic;font-size:12.5px;color:#666;line-height:1.6;margin:0 0 12px}
+
+/* Share Card */
+.jm-sharecard{display:grid;grid-template-columns:.85fr 1.15fr;gap:40px}
+.jm-share-visual{background:#171411;color:#fff;padding:36px;min-height:480px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden}
+.jm-share-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
+.jm-share-visual>*{position:relative;z-index:1}
+.jm-share-visual span{font:9px 'IBM Plex Mono';color:#f3a178}
+.jm-share-visual h3{font-size:22px;margin:12px 0}
+.jm-visibility{display:grid;gap:10px;margin-top:20px}
+.jm-visibility label{display:flex;align-items:center;gap:12px;border:1px solid var(--line);padding:14px 16px;font-size:12px;cursor:pointer}
+.jm-visibility input{accent-color:var(--orange)}
+.jm-visibility label.active{border-color:var(--orange);background:#fff6f0}
+
+/* Public marketing header (Landing / Login) */
+.jm-header.public{justify-content:space-between}
+.jm-header-login{padding:11px 20px !important;font-size:10px !important}
+
+/* Landing page */
+.jm-landing-hero{padding:96px max(28px,calc((100vw - 1320px)/2)) 0;text-align:center}
+.jm-landing-hero h1{font-weight:700;font-size:clamp(44px,7.5vw,88px);line-height:1.08;letter-spacing:-.03em;margin:0 0 26px;color:#171411}
+.jm-landing-hero p{font-size:17px;line-height:1.8;color:#666;margin:0 auto 36px;max-width:64ch}
+.jm-landing-hero-image{max-width:980px;margin:64px auto 0;border:1px solid var(--line);background:#eee9e2;overflow:hidden}
+.jm-landing-hero-image img{width:100%;height:640px;object-fit:contain;mix-blend-mode:multiply;display:block}
+
+.jm-landing-feature{max-width:1320px;margin:0 auto;padding:88px max(28px,calc((100vw - 1320px)/2));border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.jm-landing-feature.reverse .jm-landing-feature-image{order:-1}
+.jm-landing-feature-copy h2{font-size:clamp(28px,3.4vw,40px);font-weight:700;letter-spacing:-.025em;line-height:1.22;margin:18px 0 20px;word-break:keep-all}
+.jm-landing-feature-copy p{font-size:15px;line-height:1.9;color:#666;max-width:46ch}
+.jm-landing-feature-image{height:460px;background:#eee9e2;border:1px solid var(--line);display:grid;place-items:center;overflow:hidden}
+.jm-landing-feature-image img{width:82%;height:82%;object-fit:contain;mix-blend-mode:multiply}
+
+.jm-landing-cta{background:#171411;color:#fff;text-align:center;padding:120px 32px;margin-top:20px}
+.jm-landing-cta span{color:#f3a178}
+.jm-landing-cta h2{font-weight:700;font-size:clamp(36px,5.5vw,64px);line-height:1.1;letter-spacing:-.03em;margin:22px 0 18px}
+.jm-landing-cta p{color:#c9c1bb;font-size:15px;line-height:1.8;margin:0 auto 36px;max-width:48ch}
+
+@media(max-width:900px){
+  .jm-header{padding:0 18px;gap:20px}
+  .jm-header nav{position:fixed;bottom:0;left:0;right:0;background:#fff;height:64px;z-index:50;justify-content:space-around;gap:0;border-top:1px solid #111}
+  .jm-header nav button{display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 6px 8px;font-size:8px}
+  .jm-header nav button:after{display:none}
+  .jm-nav-icon{display:block;width:19px;height:19px}
+  .jm-nav-icon svg{width:100%;height:100%}
+  .jm-page{padding:28px 18px 110px}
+  .jm-grid-2,.jm-detail,.jm-passport-grid,.jm-journeyform,.jm-jdetail,.jm-sharecard,.jm-fit-products{grid-template-columns:1fr}
+  .jm-landing-feature{grid-template-columns:1fr;gap:24px;padding:48px 18px}
+  .jm-landing-feature.reverse .jm-landing-feature-image{order:0}
+  .jm-landing-feature-image{height:280px}
+  .jm-landing-hero{padding:56px 18px 0}
+  .jm-landing-hero-image img{height:300px}
+  .jm-landing-cta{padding:64px 24px}
+  .jm-discovery-hero{grid-template-columns:1fr}
+  .jm-discovery-strip{grid-template-columns:1fr}
+  .jm-discovery-strip>div{border-left:0;border-top:1px solid var(--line)}
+  .jm-dash{grid-template-columns:1fr}
+  .jm-dash>div{border-right:0;border-bottom:1px solid #ffffff2e}
+  .jm-journey-cards{grid-template-columns:1fr 1fr}
+  .jm-care-grid{grid-template-columns:1fr}
+  .jm-timeline-item{grid-template-columns:70px 1fr}
+  .jm-timeline-item img{display:none}
+  .jm-narrative-dash{grid-template-columns:1fr}
+  .jm-narrative-dash .panel + .panel{border-left:0;border-top:1px solid var(--line)}
+  .jm-map.hero{height:46vh}
+  .jm-city-grid{display:flex;overflow-x:auto;gap:12px;padding-bottom:6px}
+  .jm-city-grid .jm-city-card{flex:0 0 200px}
+  .jm-my-grid{grid-template-columns:1fr}
+  .jm-my-col + .jm-my-col{border-left:0;border-top:1px solid var(--line)}
+  .jm-next-grid{grid-template-columns:1fr}
+  .jm-next-grid > :nth-child(2){margin-top:0}
+  .jm-next-detail-grid{grid-template-columns:1fr}
+  .jm-next-hero{padding:24px;min-height:220px}
+}
+@media(max-width:520px){
+  .jm-journey-cards{grid-template-columns:1fr}
+  .jm-actions button,.jm-actions .jm-btn{width:100%;justify-content:center}
+}

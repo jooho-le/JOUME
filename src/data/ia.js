@@ -1,4 +1,5 @@
 export const PAGE_SPECS = [
+  {id:'landing',code:'00',group:'LANDING',title:'Landing',ko:'Your Bag is Your Story',layout:'landing',features:['Record & Visualize','AI-Crafted Narrative','AI-Crafted For You'],ctas:[['Join Me','login']]},
   {id:'product-discovery',code:'01-1',group:'ENTRY / PRODUCT DISCOVERY',title:'Product Discovery',ko:'제품의 첫 번째 Story를 만나보세요.',layout:'product',features:['Product Story Preview','MCM Heritage','Journey Preview','Product Care Preview'],ctas:[['Explore the Story','digital-passport'],['View Product','product-detail']]},
   {id:'product-detail',code:'01-2',group:'ENTRY / PRODUCT DISCOVERY',title:'Product Detail',ko:'STARK BACKPACK IN VISETOS',layout:'product-detail',features:['컬러 / 옵션','제품 설명','Product Story','Journey Preview'],ctas:[['Purchase','login'],['Product Passport','digital-passport']]},
   {id:'external-entry',code:'01-3',group:'ENTRY / PRODUCT DISCOVERY',title:'External Product Entry',ko:'제품을 스캔해 공식 MCM 경험으로 연결하세요.',layout:'scan',features:['NFC / QR Scan','공식 MCM DPP 연결','구매 경로 비노출'],ctas:[['Scan Product','digital-passport']]},
@@ -17,11 +18,11 @@ export const PAGE_SPECS = [
   {id:'story-card',code:'06-2',group:'AI STORY',title:'Journey Story Card',ko:'#MyMCMJourney',layout:'share',features:['공유용 대표 이미지','제품 이미지','대표 Story 문장','도시 / Route','공개 범위 설정'],ctas:[['Share','community-feed']]},
   {id:'next-story',code:'07-1',group:'AI NEXT STORY',title:'Next Story',ko:'Where will your MCM take you next?',layout:'next',features:['Customer Context Summary','Story Recommendation 01','Story Recommendation 02'],ctas:[['View Recommendation','next-story-detail']]},
   {id:'next-story-detail',code:'07-2',group:'AI NEXT STORY',title:'Next Story Detail',ko:'BERLIN · NEW PERSPECTIVE',layout:'next-detail',features:['추천 이유','기존 Story와 연결점','만들 수 있는 Story','문화 / 디자인 / 건축','관련 활동'],ctas:[['Make This My Next Story','saved-next-story']]},
-  {id:'saved-next-story',code:'07-3',group:'AI NEXT STORY',title:'Saved Next Story',ko:'다음 Story가 저장되었습니다.',layout:'saved',features:['예정 장소','Experience','관련 MCM Experience'],ctas:[['View MCM Experience','experience-recommendation'],['Add Journey','add-journey']]},
-  {id:'experience-recommendation',code:'08-1',group:'MCM EXPERIENCE',title:'MCM Experience Recommendation',ko:'For Your Next Story.',layout:'recommendations',features:['Product Care 추천','MCM Store 추천','Brand Content 추천','관련 제품 1 / 2','각 추천 이유'],ctas:[['Product Detail','recommendation-detail'],['Store Detail','store-detail']]},
-  {id:'recommendation-detail',code:'08-2',group:'MCM EXPERIENCE',title:'Product Recommendation Detail',ko:'다음 Story를 완성하는 제품.',layout:'product-detail',features:['현재 보유 제품과 연결점','선택한 Story와 추천 이유','Product Story'],ctas:[['View Product','product-detail'],['Official Store','store-detail']]},
-  {id:'brand-content',code:'08-3',group:'MCM EXPERIENCE',title:'Brand Content Detail',ko:'MCM Travel Story.',layout:'content',features:['문화 / 디자인 콘텐츠','전시 / 프로그램','해당 Journey와 연결 이유'],ctas:[['Explore Store','store-detail']]},
-  {id:'store-detail',code:'08-4',group:'MCM EXPERIENCE',title:'Store Detail',ko:'MCM SEOUL FLAGSHIP.',layout:'store',features:['가까운 MCM 매장','매장 정보','제공 서비스','Product Care 가능 여부','관련 제품'],ctas:[['Visit / Reserve','care-request']]},
+  {id:'next-product-detail',code:'07-3',group:'AI NEXT STORY',title:'Next Product Detail',ko:'다음 이야기를 완성하는 제품.',layout:'next-detail',features:['현재 보유 제품과 연결점','추천 이유','Product Story'],ctas:[['Store에서 보기','store-detail']]},
+  {id:'saved-next-story',code:'07-4',group:'AI NEXT STORY',title:'Saved Next Story',ko:'다음 Story가 저장되었습니다.',layout:'saved',features:['예정 장소','Experience','관련 MCM Experience'],ctas:[['View MCM Experience','experience-recommendation'],['Add Journey','add-journey']]},
+  {id:'experience-recommendation',code:'08-1',group:'MCM EXPERIENCE',title:'MCM Experience Recommendation',ko:'For Your Next Story.',layout:'recommendations',features:['Product Care 추천','MCM Store 추천','Brand Content 추천','각 추천 이유'],ctas:[['Brand Content','brand-content'],['Store Detail','store-detail']]},
+  {id:'brand-content',code:'08-2',group:'MCM EXPERIENCE',title:'Brand Content Detail',ko:'MCM Travel Story.',layout:'content',features:['문화 / 디자인 콘텐츠','전시 / 프로그램','해당 Journey와 연결 이유'],ctas:[['Explore Store','store-detail']]},
+  {id:'store-detail',code:'08-3',group:'MCM EXPERIENCE',title:'Store Detail',ko:'MCM SEOUL FLAGSHIP.',layout:'store',features:['가까운 MCM 매장','매장 정보','제공 서비스','Product Care 가능 여부','관련 제품'],ctas:[['Visit / Reserve','care-request']]},
   {id:'care-home',code:'09-1',group:'PRODUCT CARE',title:'Product Care Home',ko:'오래 함께하기 위한 관리.',layout:'care',features:['현재 보유 제품','제품 상태','관리 가이드','최근 Care 기록'],ctas:[['Request Care','care-request'],['Care Guide','care-guide']]},
   {id:'care-guide',code:'09-2',group:'PRODUCT CARE',title:'Care Guide',ko:'소재에 맞는 공식 관리 방법.',layout:'guide',features:['제품별 관리 방법','소재별 관리','보관 방법'],ctas:[['Request Care','care-request']]},
   {id:'care-history',code:'09-3',group:'PRODUCT CARE',title:'Repair / Care History',ko:'공식 수선도 Journey의 일부입니다.',layout:'timeline',features:['공식 수선 이력','수선 날짜 / 내용','Journey Timeline 연결'],ctas:[['View Timeline','journey-timeline']]},
@@ -38,3 +39,4 @@ export const PAGE_SPECS = [
 ];
 export const PAGE_MAP=Object.fromEntries(PAGE_SPECS.map(x=>[x.id,x]));
 export const GLOBAL_NAV=[['STORY','story-home'],['MAP','journey-map'],['NEXT','next-story'],['CARE','care-home'],['MY','my-products']];
+export const PUBLIC_PAGES=['landing','login'];
