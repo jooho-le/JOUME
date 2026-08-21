@@ -5,8 +5,11 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-# backend/.env 를 읽는다. 파일이 없으면 조용히 넘어가므로 클론 직후에도 기동된다.
-load_dotenv(Path(__file__).resolve().parents[1] / ".env")
+# 프로젝트 루트 .env를 우선 읽고, backend/.env도 선택적으로 지원한다.
+PROJECT_DIR = Path(__file__).resolve().parents[2]
+BACKEND_DIR = Path(__file__).resolve().parents[1]
+load_dotenv(PROJECT_DIR / ".env")
+load_dotenv(BACKEND_DIR / ".env", override=False)
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")

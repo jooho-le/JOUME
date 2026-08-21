@@ -178,3 +178,53 @@ class AIStoryOut(BaseModel):
     title: str
     content: str
     source: str  # "llm" | "fallback"
+
+
+class ContextIn(BaseModel):
+    interests: list[str] = Field(default_factory=list)
+    preferred_cities: list[str] = Field(default_factory=list)
+    usage_purposes: list[str] = Field(default_factory=list)
+
+
+class ContextOut(BaseModel):
+    user_product_id: int
+    interests: list[str]
+    preferred_cities: list[str]
+    usage_purposes: list[str]
+
+
+class StoryProposalOut(ORMModel):
+    id: int
+    user_product_id: int
+    theme: str
+    city: str
+    activity: str
+    reason: str
+    status: str
+    created_at: datetime
+
+
+class ExperienceOut(ORMModel):
+    id: int
+    kind: str
+    title: str
+    city: str
+    description: str
+    image_url: Optional[str]
+    product_id: Optional[int]
+
+
+class ExperienceRecommendationOut(ORMModel):
+    id: int
+    story_proposal_id: int
+    rank: int
+    reason: str
+    experience: ExperienceOut
+
+
+class AIPipelineOut(BaseModel):
+    analysis_id: int
+    context: dict
+    story: StoryOut
+    next_stories: list[StoryProposalOut]
+    model: str

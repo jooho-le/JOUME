@@ -20,7 +20,7 @@ async def lifespan(_: FastAPI):
 
 
 app = FastAPI(
-    title="MCM Archive API",
+    title="JOUME API",
     description="MCM 제품 Passport, Journey 기록, Story, 추천, Care API",
     version="1.0.0",
     lifespan=lifespan,
